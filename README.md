@@ -4,7 +4,7 @@
 
 ---
 
-## WARNING: Hey There! Please note that Hydrogen is NOT finished and contains MANY issues and no official documentation, nor repository
+## WARNING: Hey There! Please note that Hydrogen is NOT finished and contains MANY issues and no official documentation
 
 ## These will come with due time after the project has been battle-tested, however feel free to use Hydrogen if you figure it out!
 
@@ -23,7 +23,7 @@ pesde.toml:
 
 ```toml
 [dependencies]
-hydrogen = { name = "teamhydrogen/hydrogen", version = "^0.1.0-alphadev-1"}
+hydrogen = { name = "teamhydrogen/hydrogen", version = "^0.1.0-alphadev-3"}
 ```
 
 ## Usage:
