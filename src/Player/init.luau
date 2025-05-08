@@ -46,22 +46,6 @@ function PlayerHandler.SetCustomData(self: Handler, Player: Player, NewData: { a
 	self.Players[Player].CustomData = NewDictionary
 end
 
-function PlayerHandler.ProcessExisting(self: Handler)
-	for _, Player in game.Players:GetPlayers() do
-		print(Player.Name)
-
-		local NewPlayerObject = PlayerClass.new(Player)
-		self.Players[Player] = NewPlayerObject
-
-		local Data = self:GetPlayerData(Player)
-
-		if not Data then
-			Player:Kick("Sorry, data loading has failed. However, your data is safe! Please rejoin.")
-			continue
-		end
-	end
-end
-
 PlayerHandler.onPlayerRemoving = function(self: Handler, Player: Player)
 	self.Players[Player]:Destroy()
 	self.Players[Player] = nil
@@ -142,7 +126,10 @@ function PlayerHandler.Start(Config: {
 			PlayerClass.SetMigrations(Config.Migrations)
 		end
 		PlayerClass.Start(Config.CollectionName)
-		PlayerHandler:ProcessExisting()
+
+		for _, Player in Players:GetPlayers() do
+			PlayerHandler:onPlayerAdded(Player)
+		end
 
 		Players.PlayerAdded:Connect(function(Player)
 			PlayerHandler:onPlayerAdded(Player)

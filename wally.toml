@@ -1,0 +1,10 @@
+[package]
+name = "teamhydrogen/hydrogen"
+version = "0.1.0-alphadev-3"
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+
+[dependencies]
+
+Lapis = "nezuo/lapis@0.3.4"
+Sift = "csqrl/sift@0.0.11"
