@@ -1,0 +1,43 @@
+name = "teamhydrogen/hydrogen"
+version = "0.1.0-alphadev-1"
+description = "Game framework for Roblox with all the essentials needed!"
+authors = ["Sophie B"]
+license = "MIT"
+
+includes = [
+    "pesde.toml",
+    "LICENSE",
+    "src/**/*.luau",
+    "README.md",
+]
+
+[engines]
+pesde = "^0.6.0"
+lune = "^0.8.9"
+
+[target]
+environment = "roblox"
+lib = "src/init.luau"
+build_files = ["src"]
+
+[indices]
+default = "https://github.com/daimond113/pesde-index"
+
+[scripts]
+roblox_sync_config_generator = ".pesde/scripts/roblox_sync_config_generator.luau"
+sourcemap_generator = ".pesde/scripts/sourcemap_generator.luau"
+
+[wally_indices]
+default = "https://github.com/UpliftGames/wally-index"
+
+[dev_dependencies]
+scripts = { name = "pesde/scripts_rojo", version = "^0.1.0", target = "lune" }
+rojo = { name = "pesde/rojo", version = "^7.4.4", target = "lune" }
+selene = { name = "pesde/selene", version = "^0.28.0", target = "lune" }
+stylua = { name = "pesde/stylua", version = "^2.0.2", target = "lune" }
+zap = { name = "pesde/zap", version = "^0.6.19", target = "lune" }
+
+[dependencies]
+
+Lapis = { wally = "nezuo/lapis", version = "^0.3.4"}
+Sift = { wally = "csqrl/sift", version = "^0.0.9"}

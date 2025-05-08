@@ -1,0 +1,33 @@
+{
+    "name": "HydrogenTest",
+    "tree": {
+      "$className": "DataModel",
+      "$ignoreUnknownInstances": true,
+  
+      "ReplicatedStorage": {
+        "Hydrogen": {
+            "$path": "src",
+
+            "Packages": {
+                "$path": "roblox_packages"
+            }
+        }
+      },
+  
+      "ServerScriptService": {
+        "$ignoreUnknownInstances": true,
+        "Server": {
+          "$path": "Test/Server"
+        }
+      },
+  
+      "StarterPlayer": {
+        "StarterPlayerScripts": {
+          "$ignoreUnknownInstances": true,
+          "Client": {
+            "$path": "Test/Client"
+          }
+        }
+      }
+    }
+  }

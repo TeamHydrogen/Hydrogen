@@ -1,0 +1,9 @@
+sourcemap.json
+test-sourcemap.json
+*.rbxm
+*.rbxl
+*.rbxl.lock
+.pesde
+luau_packages
+lune_packages
+roblox_packages
