@@ -11,7 +11,7 @@ local LifecyclesEvents = {
 	PreSimulation = RunService.PreSimulation,
 }
 
-if RunService:Client() then
+if RunService:IsClient() then
 	LifecyclesEvents["CharacterAdded"] = Players.LocalPlayer.CharacterAdded
 	LifecyclesEvents["CharacterRemoving"] = Players.LocalPlayer.CharacterRemoving
 	LifecyclesEvents["RenderStepped"] = RunService.RenderStepped
