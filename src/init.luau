@@ -40,7 +40,16 @@ end
 function Hydrogen.Start(Config: {
 	ModuleDirectory: any,
 	ModuleSuffix: string?,
-	RunLifecycles: boolean? | { "PlayerAdded" | "PlayerRemoving" | "CharacterAdded" | "Heartbeat" | "RenderStepped" }?,
+	RunLifecycles: boolean? | {
+		"PlayerAdded"
+		| "PlayerRemoving"
+		| "CharacterAdded"
+		| "Heartbeat"
+		| "RenderStepped"
+		| "PostSimulation"
+		| "PreSimulation"
+		| "CharacterRemoving"
+	}?,
 })
 	local Runtime = Hydrogen.GetRuntime()
 
@@ -72,8 +81,8 @@ function Hydrogen.Start(Config: {
 		end
 
 		task.spawn(function()
-			local RequiredDescendant = require(Descendant) :: any
-			Hydrogen[Runtime].Modules[Descendant.Name] = RequiredDescendant
+			local _RequiredDescendant = require(Descendant) :: any
+			table.insert(Hydrogen[Runtime].Modules, Descendant.Name)
 
 			debug.setmemorycategory(Descendant.Name)
 		end)

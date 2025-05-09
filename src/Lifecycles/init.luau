@@ -3,6 +3,20 @@ local RunService = game:GetService("RunService")
 
 local Lifecycles = {}
 
+local LifecyclesEvents = {
+	PlayerAdded = Players.PlayerAdded,
+	PlayerRemoving = Players.PlayerRemoving,
+	Heartbeat = RunService.Heartbeat,
+	PostSimulation = RunService.PostSimulation,
+	PreSimulation = RunService.PreSimulation,
+}
+
+if RunService:Client() then
+	LifecyclesEvents["CharacterAdded"] = Players.LocalPlayer.CharacterAdded
+	LifecyclesEvents["CharacterRemoving"] = Players.LocalPlayer.CharacterRemoving
+	LifecyclesEvents["RenderStepped"] = RunService.RenderStepped
+end
+
 local function RunCycles(Modules, Callback, ...)
 	for _, Module in Modules do
 		local Args = ...
@@ -15,55 +29,17 @@ local function RunCycles(Modules, Callback, ...)
 	end
 end
 
-function Lifecycles.Run(
-	Modules: { any },
-	PossibleLifecycles: {
-		"PlayerAdded"
-		| "PlayerRemoving"
-		| "CharacterAdded"
-		| "Heartbeat"
-		| "PostSimulation"
-		| "RenderStepped"
-	}?
-)
+function Lifecycles.Run(Modules: { any }, PossibleLifecycles: { typeof(LifecyclesEvents) }?)
 	if not PossibleLifecycles then
 		return
 	end
 
-	if table.find(PossibleLifecycles, "PlayerAdded") then
-		Players.PlayerAdded:Connect(function(Player)
-			RunCycles(Modules, "PlayerAdded", Player)
-
-			if table.find(PossibleLifecycles, "CharacterAdded") then
-				Player.CharacterAdded:Connect(function(Character)
-					RunCycles(Modules, "CharacterAdded", Character)
-				end)
-			end
-		end)
-	end
-
-	if table.find(PossibleLifecycles, "PlayerRemoving") then
-		Players.PlayerRemoving:Connect(function(Player)
-			RunCycles(Modules, "PlayerRemoving", Player)
-		end)
-	end
-
-	if table.find(PossibleLifecycles, "Heartbeat") then
-		RunService.Heartbeat:Connect(function(Delta)
-			RunCycles(Modules, "Heartbeat", Delta)
-		end)
-	end
-
-	if table.find(PossibleLifecycles, "PostSimulation") then
-		RunService.PostSimulation:Connect(function(Delta)
-			RunCycles(Modules, "PostSimulation", Delta)
-		end)
-	end
-
-	if table.find(PossibleLifecycles, "RenderStepped") then
-		RunService.RenderStepped:Connect(function(Delta)
-			RunCycles(Modules, "RenderStepped", Delta)
-		end)
+	for _, Lifecycle in PossibleLifecycles do
+		if LifecyclesEvents[Lifecycle] then
+			LifecyclesEvents[Lifecycle]:Connect(function(...)
+				RunCycles(Modules, Lifecycle, ...)
+			end)
+		end
 	end
 end
 
