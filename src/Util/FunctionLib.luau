@@ -33,15 +33,13 @@ function FunctionLib:FindPossibleStringsInString(String: string, Values: { strin
 end
 
 function FunctionLib:FindStringsInTable(Strings: { string }, Values: { string }): boolean
-	local OK = true
-
 	for _, String in Strings do
 		if not table.find(Values, String) then
-			OK = false
+			return false
 		end
 	end
 
-	return OK
+	return true
 end
 
 function FunctionLib:SecsToMins(Secs: number, FormatAsString: boolean?): { Mins: number, Secs: number } | string
