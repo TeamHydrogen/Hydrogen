@@ -97,27 +97,8 @@ function FunctionLib:ToRegularNumber(N: string): number
 	return Num1 * (10 ^ Num2)
 end
 
-function FunctionLib:DeepCopy(tbl: { any }): { any }
-	if type(tbl) ~= "table" then
-		return tbl
-	end
-	local copy = {}
-	for k, v in pairs(tbl) do
-		copy[k] = self:DeepCopy(v)
-	end
-	return copy
-end
-
 function FunctionLib:CheckIfPartIsPlayer(Hit: BasePart): boolean
-	if Hit.Name ~= "RightFoot" then
-		return false
-	end
-
 	local Parent = Hit.Parent :: BasePart
-
-	if Parent:HasTag("NPC") then
-		return false
-	end
 
 	if not Parent then
 		return false

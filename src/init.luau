@@ -10,21 +10,30 @@ Sophie B 2025 MIT
 
 local Lifecycles = require(script.Lifecycles)
 
+local PossibleClientCycles = {
+	"PlayerAdded",
+	"PlayerRemoving",
+	"Heartbeat",
+	"CharacterAdded",
+	"CharacterRemoving",
+	"RenderStepped",
+	"PostSimulation",
+}
+
+local PossibleServerCycles = {
+	"PlayerAdded",
+	"PlayerRemoving",
+	"Heartbeat",
+	"PostSimulation",
+}
+
 local Hydrogen = {
 	Server = { Modules = {} } :: {
-		RunLifecycles: boolean?
-			| { "PlayerAdded" | "PlayerRemoving" | "CharacterAdded" | "Heartbeat" | "PostSimulation" }?,
+		RunLifecycles: boolean? | typeof(PossibleServerCycles)?,
 		Modules: {},
 	},
 	Client = { Modules = {} } :: {
-		RunLifecycles: boolean? | {
-			"PlayerAdded"
-			| "PlayerRemoving"
-			| "Heartbeat"
-			| "CharacterAdded"
-			| "RenderStepped"
-			| "PostSimulation"
-		}?,
+		RunLifecycles: boolean? | typeof(PossibleClientCycles)?,
 		Modules: {},
 	},
 }
@@ -40,16 +49,7 @@ end
 function Hydrogen.Start(Config: {
 	ModuleDirectory: any,
 	ModuleSuffix: string?,
-	RunLifecycles: boolean? | {
-		"PlayerAdded"
-		| "PlayerRemoving"
-		| "CharacterAdded"
-		| "Heartbeat"
-		| "RenderStepped"
-		| "PostSimulation"
-		| "PreSimulation"
-		| "CharacterRemoving"
-	}?,
+	RunLifecycles: boolean? | typeof(PossibleClientCycles)?,
 })
 	local Runtime = Hydrogen.GetRuntime()
 
@@ -90,11 +90,9 @@ function Hydrogen.Start(Config: {
 
 	if Config.RunLifecycles == true then
 		if Runtime == "Client" then
-			Hydrogen[Runtime].RunLifecycles =
-				{ "PlayerAdded", "PlayerRemoving", "Heartbeat", "CharacterAdded", "RenderStepped", "PostSimulation" }
+			Hydrogen[Runtime].RunLifecycles = PossibleClientCycles
 		else
-			Hydrogen[Runtime].RunLifecycles =
-				{ "PlayerAdded", "PlayerRemoving", "CharacterAdded", "Heartbeat", "PostSimulation" }
+			Hydrogen[Runtime].RunLifecycles = PossibleServerCycles
 		end
 	end
 

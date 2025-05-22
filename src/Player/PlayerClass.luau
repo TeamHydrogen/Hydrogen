@@ -7,7 +7,7 @@ local RunService = game:GetService("RunService")
 
 --// Modules
 
-local Packages = script.Parent.Parent.Parent["roblox_packages"]
+local Packages = script.Parent.Parent.Packages
 
 local Lapis
 

@@ -1,12 +1,9 @@
 --!strict
---!native
---!optimize 2
 
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 
-local Packages = script.Parent.Parent["roblox_packages"]
-local Sift = require(Packages.Sift)
+local Sift = require(script.Parent.Packages.Sift)
 local Network
 
 if RunService:IsServer() then
@@ -16,7 +13,6 @@ else
 end
 
 local PlayerClass = require(script.PlayerClass)
-local FunctionLib = require(script.Parent.Util.FunctionLib)
 
 local PlayerHandler = {}
 PlayerHandler.Players = {} :: { [Player]: PlayerClass.PlayerClassType }
@@ -116,7 +112,7 @@ function PlayerHandler.Start(Config: {
 })
 	if RunService:IsServer() then
 		Network.GetPlayerData.SetCallback(function(Player: Player)
-			local ClonedTable = FunctionLib:DeepCopy(PlayerHandler:GetPlayerData(Player) :: any) :: any
+			local ClonedTable = Sift.Dictionary.copyDeep(PlayerHandler:GetPlayerData(Player))
 
 			return ClonedTable :: any
 		end)
