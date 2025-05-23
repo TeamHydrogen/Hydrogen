@@ -2,7 +2,7 @@ local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 
 local Lifecycles = {}
-local Sift = script.Parent.Parent["roblox_packages"].Sift
+local Sift = require(script.Parent.Parent["roblox_packages"].Sift)
 local LifecyclesEvents = {
 	PlayerAdded = Players.PlayerAdded,
 	PlayerRemoving = Players.PlayerRemoving,
