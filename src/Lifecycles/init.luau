@@ -16,8 +16,8 @@ local function RunCycles(Modules, Callback, ...)
 		local Args = ...
 
 		task.spawn(function()
-			if Module[Callback] then
-				Module[Callback](Args)
+			if require(Module)[Callback] then
+				require(Module)[Callback](Args)
 			end
 		end)
 	end
