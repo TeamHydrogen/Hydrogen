@@ -28,13 +28,15 @@ local PossibleServerCycles = {
 }
 
 local Hydrogen = {
-	Server = { Modules = {} } :: {
+	Server = { ModuleNames = {}, RequiredModules = {} } :: {
 		RunLifecycles: boolean? | typeof(PossibleServerCycles)?,
-		Modules: {},
+		ModuleNames: {},
+		RequiredModules: {},
 	},
-	Client = { Modules = {} } :: {
+	Client = { ModuleNames = {}, RequiredModules = {} } :: {
 		RunLifecycles: boolean? | typeof(PossibleClientCycles)?,
-		Modules: {},
+		ModuleNames: {},
+		RequiredModules: {},
 	},
 }
 
@@ -82,7 +84,8 @@ function Hydrogen.Start(Config: {
 
 		task.spawn(function()
 			local _RequiredDescendant = require(Descendant) :: any
-			table.insert(Hydrogen[Runtime].Modules, Descendant.Name)
+			table.insert(Hydrogen[Runtime].ModuleNames, Descendant.Name)
+			table.insert(Hydrogen[Runtime].RequiredModules, Descendant.Name)
 
 			debug.setmemorycategory(Descendant.Name)
 		end)
@@ -96,7 +99,7 @@ function Hydrogen.Start(Config: {
 		end
 	end
 
-	Lifecycles.Run(Hydrogen[Runtime].Modules, Hydrogen[Runtime].RunLifecycles)
+	Lifecycles.Run(Hydrogen[Runtime].RequiredModules, Hydrogen[Runtime].RunLifecycles)
 end
 
 return Hydrogen
