@@ -2,7 +2,7 @@ local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 
 local Lifecycles = {}
-
+local Sift = script.Parent.Parent["roblox_packages"].Sift
 local LifecyclesEvents = {
 	PlayerAdded = Players.PlayerAdded,
 	PlayerRemoving = Players.PlayerRemoving,
@@ -10,12 +10,6 @@ local LifecyclesEvents = {
 	PostSimulation = RunService.PostSimulation,
 	PreSimulation = RunService.PreSimulation,
 }
-
-if RunService:IsClient() then
-	LifecyclesEvents["CharacterAdded"] = Players.LocalPlayer.CharacterAdded
-	LifecyclesEvents["CharacterRemoving"] = Players.LocalPlayer.CharacterRemoving
-	LifecyclesEvents["RenderStepped"] = RunService.RenderStepped
-end
 
 local function RunCycles(Modules, Callback, ...)
 	for _, Module in Modules do
@@ -34,9 +28,21 @@ function Lifecycles.Run(Modules: { any }, PossibleLifecycles: { typeof(Lifecycle
 		return
 	end
 
+	local TotalLifecycles = LifecyclesEvents
+
+	if RunService:IsClient() then
+		local ClientCycles = {
+			CharacterAdded = Players.LocalPlayer.CharacterAdded,
+			CharacterRemoving = Players.LocalPlayer.CharacterRemoving,
+			RenderStepped = RunService.RenderStepped,
+		}
+
+		TotalLifecycles = Sift.Dictionary.merge(TotalLifecycles, ClientCycles)
+	end
+
 	for _, Lifecycle in PossibleLifecycles do
-		if LifecyclesEvents[Lifecycle] then
-			LifecyclesEvents[Lifecycle]:Connect(function(...)
+		if TotalLifecycles[Lifecycle] then
+			TotalLifecycles[Lifecycle]:Connect(function(...)
 				RunCycles(Modules, Lifecycle, ...)
 			end)
 		end

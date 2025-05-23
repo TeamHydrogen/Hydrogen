@@ -1,16 +1,11 @@
 name = "teamhydrogen/hydrogen"
-version = "0.1.0-alphadev-9"
+version = "0.1.0-alphadev-10"
 description = "Game framework for Roblox with all the essentials needed!"
 authors = ["Sophie B"]
 license = "MIT"
 repository = "https://github.com/teamhydrogen/hydrogen"
 
-includes = [
-    "pesde.toml",
-    "LICENSE",
-    "src/**/*.luau",
-    "README.md",
-]
+includes = ["pesde.toml", "LICENSE", "src/**/*.luau", "README.md"]
 
 [engines]
 pesde = "^0.6.0"
@@ -40,5 +35,5 @@ zap = { name = "pesde/zap", version = "^0.6.19", target = "lune" }
 
 [dependencies]
 
-Lapis = { wally = "nezuo/lapis", version = "^0.3.4"}
-Sift = { wally = "csqrl/sift", version = "^0.0.9"}
+Lapis = { wally = "nezuo/lapis", version = "^0.3.4" }
+Sift = { wally = "csqrl/sift", version = "^0.0.9" }

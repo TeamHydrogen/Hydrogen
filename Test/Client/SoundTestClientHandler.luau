@@ -4,6 +4,12 @@ local Hydrogen = require(ReplicatedStorage.Hydrogen)
 local SoundHandler = Hydrogen.SoundHandler
 SoundHandler.Start(ReplicatedStorage.Sounds)
 
+local TestClientHandler = {}
+
+function TestClientHandler.RenderStepped()
+	print("Step!")
+end
+
 do
 	print("--------------------------")
 	print("CLIENT SOUND TEST")
@@ -13,4 +19,4 @@ do
 	SoundHandler.PlaySound("Shot1")
 end
 
-return {}
+return TestClientHandler
