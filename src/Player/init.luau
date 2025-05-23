@@ -3,7 +3,7 @@
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 
-local Sift = require(script.Parent.Packages.Sift)
+local Sift = require(script.Parent.Parent["roblox_packages"].Sift) -- ik its erroring but allow it, itll work in game
 local Network
 
 if RunService:IsServer() then
