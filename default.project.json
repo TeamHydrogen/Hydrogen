@@ -2,9 +2,8 @@
 	"name": "Hydrogen",
 	"tree": {
 		"$path": "src",
-
-        "Packages": {
-            "$path": "roblox_packages"
-        }
+		"Packages": {
+			"$path": "roblox_packages"
+		}
 	}
 }
