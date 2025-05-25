@@ -1,5 +1,5 @@
 name = "teamhydrogen/hydrogen"
-version = "0.1.4"
+version = "0.2.0"
 description = "Game framework for Roblox with all the essentials needed!"
 authors = ["Sophie B"]
 license = "MIT"
@@ -32,8 +32,3 @@ rojo = { name = "pesde/rojo", version = "^7.4.4", target = "lune" }
 selene = { name = "pesde/selene", version = "^0.28.0", target = "lune" }
 stylua = { name = "pesde/stylua", version = "^2.0.2", target = "lune" }
 zap = { name = "pesde/zap", version = "^0.6.19", target = "lune" }
-
-[dependencies]
-
-Lapis = { wally = "nezuo/lapis", version = "^0.3.4" }
-Sift = { wally = "csqrl/sift", version = "^0.0.9" }

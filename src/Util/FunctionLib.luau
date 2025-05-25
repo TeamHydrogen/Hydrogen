@@ -3,6 +3,12 @@
 local FunctionLib = {}
 local suffixes = { "K", "M", "B", "T", "Qd", "Qn", "Se", "Sp", "Oc", "No", "Dc", "Udc", "Ddc", "Tdc" }
 
+local None = newproxy(true)
+
+getmetatable(None :: any).__tostring = function()
+	return "Sift.None"
+end
+
 function FunctionLib:ToSuffixString(n)
 	if n == 0 then
 		return "0"
@@ -107,6 +113,38 @@ function FunctionLib:CheckIfPartIsPlayer(Hit: BasePart): boolean
 	end
 
 	return true
+end
+
+--// FUNCTIONS LABELLED BELOW ARE FROM SIFT. ALL CREDIT TO CXMEEL AND CONTRIBUTORS TO SIFT
+
+function FunctionLib:MergeDictionary<T>(...: { any }): T
+	local result = {}
+
+	for dictionaryIndex = 1, select("#", ...) do
+		local dictionary = select(dictionaryIndex, ...)
+
+		if type(dictionary) ~= "table" then
+			continue
+		end
+
+		for key, value in pairs(dictionary) do
+			result[key] = if value == None then nil else value
+		end
+	end
+
+	return result :: any
+end
+
+function FunctionLib:CopyDeep<T>(dictionary: T): T
+	local new = table.clone(dictionary :: any)
+
+	for key, value in pairs(dictionary :: any) do
+		if type(value) == "table" then
+			new[key] = FunctionLib:CopyDeep(value)
+		end
+	end
+
+	return new :: any
 end
 
 return FunctionLib

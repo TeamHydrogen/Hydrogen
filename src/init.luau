@@ -78,14 +78,14 @@ function Hydrogen.Start(Config: {
 			continue
 		end
 
-		if table.find(Hydrogen[Runtime].Modules, Descendant.Name) then
+		if table.find(Hydrogen[Runtime].ModuleNames, Descendant.Name) then
 			error("Hydrogen failed to load " .. Descendant.Name .. " as there is already a module named that loaded!")
 		end
 
 		task.spawn(function()
 			local _RequiredDescendant = require(Descendant) :: any
 			table.insert(Hydrogen[Runtime].ModuleNames, Descendant.Name)
-			table.insert(Hydrogen[Runtime].RequiredModules, Descendant.Name)
+			table.insert(Hydrogen[Runtime].RequiredModules, Descendant)
 
 			debug.setmemorycategory(Descendant.Name)
 		end)

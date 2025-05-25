@@ -1,33 +1,26 @@
 {
-    "name": "HydrogenTest",
-    "tree": {
-      "$className": "DataModel",
+  "name": "HydrogenTest",
+  "tree": {
+    "$className": "DataModel",
+    "$ignoreUnknownInstances": true,
+    "ReplicatedStorage": {
+      "Hydrogen": {
+        "$path": "src"
+      }
+    },
+    "ServerScriptService": {
       "$ignoreUnknownInstances": true,
-  
-      "ReplicatedStorage": {
-        "Hydrogen": {
-            "$path": "src",
-
-            "Packages": {
-                "$path": "roblox_packages"
-            }
-        }
-      },
-  
-      "ServerScriptService": {
+      "Server": {
+        "$path": "Test/Server"
+      }
+    },
+    "StarterPlayer": {
+      "StarterPlayerScripts": {
         "$ignoreUnknownInstances": true,
-        "Server": {
-          "$path": "Test/Server"
-        }
-      },
-  
-      "StarterPlayer": {
-        "StarterPlayerScripts": {
-          "$ignoreUnknownInstances": true,
-          "Client": {
-            "$path": "Test/Client"
-          }
+        "Client": {
+          "$path": "Test/Client"
         }
       }
     }
   }
+}
