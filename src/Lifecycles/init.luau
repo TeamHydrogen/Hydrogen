@@ -1,8 +1,9 @@
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
+local FunctionLib = require(script.Parent.Util.FunctionLib)
 
 local Lifecycles = {}
-local Sift = require(script.Parent.Parent["roblox_packages"].Sift)
+
 local LifecyclesEvents = {
 	PlayerAdded = Players.PlayerAdded,
 	PlayerRemoving = Players.PlayerRemoving,
@@ -37,7 +38,7 @@ function Lifecycles.Run(Modules: { any }, PossibleLifecycles: { typeof(Lifecycle
 			RenderStepped = RunService.RenderStepped,
 		}
 
-		TotalLifecycles = Sift.Dictionary.merge(TotalLifecycles, ClientCycles)
+		TotalLifecycles = FunctionLib:MergeDictionary(TotalLifecycles, ClientCycles)
 	end
 
 	for _, Lifecycle in PossibleLifecycles do

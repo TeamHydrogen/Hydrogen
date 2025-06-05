@@ -11,6 +11,7 @@ else
 	Network = require(script.Parent["_PRIVATE_HYDROGEN_network"].client) :: any
 end
 
+local Promise = require(script.Parent.Packages.Promise)
 local FunctionLib = require(script.Parent.Util.FunctionLib)
 local PlayerClass = require(script.PlayerClass)
 
@@ -23,8 +24,8 @@ function PlayerHandler.SetDataSetCallback(Callback: (Player: Player, Data: { [st
 	PlayerHandler.DataSetCallback = Callback :: any
 end
 
-function PlayerHandler.onPlayerAdded(self: Handler, Player: Player, CollectionName: string)
-	local NewPlayerObject = PlayerClass.new(Player, CollectionName)
+function PlayerHandler.onPlayerAdded(self: Handler, Player: Player)
+	local NewPlayerObject = PlayerClass.new(Player)
 	self.Players[Player] = NewPlayerObject
 
 	local Data = self:GetPlayerData(Player)
@@ -48,90 +49,88 @@ PlayerHandler.onPlayerRemoving = function(self: Handler, Player: Player)
 end
 
 PlayerHandler.GetPlayerData = function(self: Handler, Player: Player?)
-	if RunService:IsClient() then
-		return Network.GetPlayerData.Call()
-	end
+	return Promise.new(function(Resolve, _, Cancel)
+		Cancel(function()
+			Resolve({})
+			return {}
+		end)
 
-	if game.PlaceId == 0 then
-		return PlayerClass.DefaultData
-	end
+		if RunService:IsClient() then
+			return Network.GetPlayerData.Call()
+		end
 
-	if not Player then
-		error("On server player must not be nil!")
-	end
+		if not Player then
+			error("On server player must not be nil!")
+			return
+		end
 
-	if not self.Players[Player] then
-		repeat
-			task.wait()
-		until self.Players[Player]
-	end
+		local success, err = pcall(function()
+			repeat
+				task.wait(0.1)
+			until self.Players[Player]["DataStore"] ~= nil
 
-	local success, err = pcall(function()
-		repeat
-			task.wait(0.1)
-		until self.Players[Player]["DataStore"] ~= nil
+			return true
+		end)
 
-		return true
+		if not success and err then
+			warn(err)
+			error("Data failed to be obtained!")
+		end
+
+		Resolve(self.Players[Player]["DataStore"].Data :: typeof(self.Players[Player].DataStore.Data))
+		return
 	end)
-
-	if not success and err then
-		warn(err)
-		error("Data failed to be obtained!")
-	end
-
-	return self.Players[Player]["DataStore"].Value :: typeof(self.Players[Player].Data)
 end
 
 PlayerHandler.SetPlayerData = function(self: typeof(PlayerHandler), Player: Player, NewData: {})
 	assert(RunService:IsServer(), "SetPlayerData Must be ran from the server!")
 
-	if game.PlaceId == 0 then
-		return
-	end
-
-	if not self.Players[Player]["DataStore"] then
-		return
-	end
-
-	local Data = self:GetPlayerData(Player)
+	local Data = self:GetPlayerData(Player):expect()
 	local NewDictionary = FunctionLib:MergeDictionary(Data, NewData)
 
 	if PlayerHandler.DataSetCallback then
 		PlayerHandler.DataSetCallback(Player, NewDictionary)
 	end
 
-	for Key, Value in NewDictionary do
-		self.Players[Player]["DataStore"].Value[Key] = Value
+	if self.Players[Player]["DataStore"] then
+		for Key, Value in NewDictionary do
+			self.Players[Player]["DataStore"].Data[Key] = Value
+		end
 	end
+
+	self.Players[Player]["Data"] = NewDictionary
 
 	return NewDictionary
 end
 
 function PlayerHandler.Start(Config: {
-	CollectionName: string?,
 	DefaultData: {},
 })
-	if RunService:IsServer() then
-		Network.GetPlayerData.SetCallback(function(Player: Player)
-			local ClonedTable = FunctionLib:CopyDeep(PlayerHandler:GetPlayerData(Player))
+	if RunService:IsClient() then
+		return
+	end
+
+	Network.GetPlayerData.SetCallback(function(Player: Player)
+		PlayerHandler:GetPlayerData(Player):andThen(function(Data)
+			local ClonedTable = FunctionLib:CopyDeep(Data)
 
 			return ClonedTable :: any
 		end)
+	end)
 
-		PlayerClass.SetDefaultData(Config.DefaultData)
+	PlayerClass.SetDefaultData(Config.DefaultData)
 
-		for _, Player in Players:GetPlayers() do
-			PlayerHandler:onPlayerAdded(Player, Config.CollectionName or "Data")
-		end
-
-		Players.PlayerAdded:Connect(function(Player)
-			PlayerHandler:onPlayerAdded(Player, Config.CollectionName or "Data")
-		end)
-
-		Players.PlayerRemoving:Connect(function(Player)
-			PlayerHandler:onPlayerRemoving(Player)
-		end)
+	for _, Player in Players:GetPlayers() do
+		PlayerHandler:onPlayerAdded(Player)
 	end
+
+	Players.PlayerAdded:Connect(function(Player)
+		PlayerHandler:onPlayerAdded(Player)
+	end)
+
+	Players.PlayerRemoving:Connect(function(Player)
+		PlayerHandler:onPlayerRemoving(Player)
+	end)
 end
 
 return PlayerHandler

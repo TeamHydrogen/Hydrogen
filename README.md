@@ -23,7 +23,7 @@ pesde.toml:
 
 ```toml
 [dependencies]
-hydrogen = { name = "teamhydrogen/hydrogen", version = "^0.1.5"}
+hydrogen = { name = "teamhydrogen/hydrogen", version = "^0.2.0"}
 ```
 
 ## Usage:
@@ -72,9 +72,27 @@ This will run every time a player is added
 
 ## PlayerHandler
 
-This handles player data and saving, being a wrapper for [Lapis](https://nezuo.github.io/lapis/) allowing you to set, get and even handle custom functions when data is updated
+This handles player data and saving, being a wrapper for [ProfileStore](https://devforum.roblox.com/t/profilestore-save-your-player-data-easy-datastore-module/3190543) allowing you to set, get and even handle custom functions when data is updated
 
 This will go more in-depth in the real documentation, however for a README I want to keep it short.
+
+The basics are that you set data with
+
+```lua
+PlayerHandler:SetPlayerData(Player, {DATA})
+```
+
+Data is a table with a key and what you want to set the key to
+
+```lua
+PlayerHandler:SetPlayerData(Player, {Coins = 300}) -- Sets coins to 300
+```
+
+You get data with
+
+```lua
+PlayerHandler:GetPlayerData(Player):expect() -- Returns a promise, expect being most likely what you would want
+```
 
 ## SoundHandler
 

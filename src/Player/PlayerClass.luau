@@ -1,7 +1,11 @@
 --!strict
 
+local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
-local Suphi = require(script.Parent.Parent.Packages.Suphi)
+local Logging = require(script.Parent.Parent.Logging)
+local ProfileStore
+
+local Store = nil :: any
 
 --// Table
 
@@ -10,26 +14,23 @@ PlayerClass.__index = PlayerClass
 
 PlayerClass.DefaultData = {}
 
+if RunService:IsServer() then
+	ProfileStore = require(script.Parent.Parent.Packages.ProfileStore)
+end
+
 export type PlayerClassType = typeof(setmetatable(
 	{} :: {
 		Player: Player,
 		Data: typeof(PlayerClass.DefaultData),
 		DataStore: any,
+		SessionEnd: RBXScriptConnection,
 		CustomData: { any },
 		Destroy: (self: PlayerClassType) -> (),
 	},
 	PlayerClass
 ))
 
-local function StateChanged(_state, dataStore)
-	while dataStore.State == false do -- Keep trying to re-open if the state is closed
-		if dataStore:Open(PlayerClass.DefaultData) ~= "Success" then
-			task.wait(6)
-		end
-	end
-end
-
-function PlayerClass.new(Player: Player, CollectionName: string): PlayerClassType
+function PlayerClass.new(Player: Player): PlayerClassType
 	if RunService:IsClient() then
 		error("PlayerClass cannot be ran on client!")
 	end
@@ -39,24 +40,47 @@ function PlayerClass.new(Player: Player, CollectionName: string): PlayerClassTyp
 	self.Player = Player :: Player
 	self.Data = PlayerClass.DefaultData
 	self.CustomData = {}
+	self.SessionEnd = nil :: any
+	self.DataStore = nil :: any
 
-	if game.PlaceId ~= 0 then
-		self.DataStore = Suphi.new(CollectionName, "PlayerData", `Player-{self.Player.Name}-{self.Player.UserId}`)
-		self.DataStore:Reconcile(PlayerClass.DefaultData)
-		self.DataStore.StateChanged:Connect(StateChanged)
+	self.DataStore = Store:StartSessionAsync(`{Player.Name}-{Player.UserId}`, {
+		Cancel = function()
+			return Player.Parent ~= Players
+		end,
+	})
+
+	if not self.DataStore then
+		Logging.Message({
+			Level = "FATAL",
+			Message = `Player {Player.Name} (UID: {Player.UserId})'s data failed to load!`,
+			LogCat = "PLAYER DATA",
+		})
+		Player:Kick("Hey, unfortunately your data failed to load! Please try again later!")
 	end
+
+	self.DataStore:AddUserId(Player.UserId)
+	self.DataStore:Reconcile()
+	self.SessionEnd = self.DataStore.OnSessionEnd:Connect(function()
+		Player:Kick(`Profile session end - Please rejoin`)
+	end)
+
+	self.Data = self.DataStore.Value
 
 	return setmetatable(self, PlayerClass) :: PlayerClassType
 end
 
 function PlayerClass.SetDefaultData(Data: { any })
 	PlayerClass.DefaultData = Data
+
+	if RunService:IsServer() then
+		Store = RunService:IsStudio() and ProfileStore.New("Data", PlayerClass.DefaultData).Mock
+			or ProfileStore.New("Data", PlayerClass.DefaultData)
+	end
 end
 
-function PlayerClass.Destroy(self: PlayerClassType, CollectionName: string)
-	local dataStore = Suphi.find(CollectionName, "PlayerData", `Player-{self.Player.Name}-{self.Player.UserId}`)
-	if dataStore ~= nil then
-		dataStore:Destroy()
+function PlayerClass.Destroy(self: PlayerClassType)
+	if self.DataStore then
+		self.DataStore:EndSession()
 	end
 end
 

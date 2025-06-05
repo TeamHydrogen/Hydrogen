@@ -133,7 +133,7 @@ end
 if RunService:IsServer() then
 	error("Cannot use the client module on the server!")
 end
-local remotes = ReplicatedStorage:WaitForChild("HydrogenNetwork")
+local remotes = ReplicatedStorage:WaitForChild("com.isophes.hydrogen.network")
 
 local reliable = remotes:WaitForChild("ZAP_RELIABLE")
 assert(reliable:IsA("RemoteEvent"), "Expected ZAP_RELIABLE to be a RemoteEvent")

@@ -140,10 +140,10 @@ if RunService:IsClient() then
 	error("Cannot use the server module on the client!")
 end
 
-local remotes = ReplicatedStorage:FindFirstChild("HydrogenNetwork")
+local remotes = ReplicatedStorage:FindFirstChild("com.isophes.hydrogen.network")
 if remotes == nil then
 	remotes = Instance.new("Folder")
-	remotes.Name = "HydrogenNetwork"
+	remotes.Name = "com.isophes.hydrogen.network"
 	remotes.Parent = ReplicatedStorage
 end
 
