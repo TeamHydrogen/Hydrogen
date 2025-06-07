@@ -2,8 +2,6 @@
 --!strict
 -- Partial types for Promise
 
-local Promise = require(script.Parent.Promise) :: any
-
 export type Status = "Started" | "Resolved" | "Rejected" | "Cancelled"
 export type ErrorKind = "ExecutionError" | "AlreadyCancelled" | "NotResolvedInTime" | "TimedOut"
 
