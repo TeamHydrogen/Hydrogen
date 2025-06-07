@@ -52,7 +52,7 @@ PlayerHandler.GetPlayerData = function(self: Handler, Player: Player?)
 	return Promise.new(function(Resolve, _, Cancel)
 		Cancel(function()
 			Resolve({})
-			return {}
+			return true
 		end)
 
 		if RunService:IsClient() then

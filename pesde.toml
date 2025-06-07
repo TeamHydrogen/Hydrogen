@@ -1,5 +1,5 @@
 name = "teamhydrogen/hydrogen"
-version = "0.2.1"
+version = "0.2.2"
 description = "Game framework for Roblox with all the essentials needed!"
 authors = ["Sophie B"]
 license = "MIT"
