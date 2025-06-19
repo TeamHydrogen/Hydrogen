@@ -43,6 +43,8 @@ local Hydrogen = {
 Hydrogen.PlayerHandler = require(script.Player)
 Hydrogen.FunctionLib = require(script.Util.FunctionLib)
 Hydrogen.SoundHandler = require(script.Sound)
+Hydrogen.Logging = require(script.Logging)
+Hydrogen.Lifecycles = require(script.Lifecycles)
 
 function Hydrogen.GetRuntime(): "Server" | "Client"
 	return RunService:IsServer() and "Server" :: "Server" or "Client"

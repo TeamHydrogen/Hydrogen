@@ -1,7 +1,9 @@
 --!strict
 
 local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
+local Promise = require(ReplicatedStorage.Hydrogen.Packages.Promise)
 local Logging = require(script.Parent.Parent.Logging)
 local ProfileStore
 
@@ -30,43 +32,47 @@ export type PlayerClassType = typeof(setmetatable(
 	PlayerClass
 ))
 
-function PlayerClass.new(Player: Player): PlayerClassType
+function PlayerClass.new(Player: Player): any
 	if RunService:IsClient() then
 		error("PlayerClass cannot be ran on client!")
+		return
 	end
 
-	local self = {}
+	return Promise.new(function(Resolve)
+		local self = {}
 
-	self.Player = Player :: Player
-	self.Data = PlayerClass.DefaultData
-	self.CustomData = {}
-	self.SessionEnd = nil :: any
-	self.DataStore = nil :: any
+		self.Player = Player :: Player
+		self.Data = PlayerClass.DefaultData
+		self.CustomData = {}
+		self.SessionEnd = nil :: any
+		self.DataStore = nil :: any
 
-	self.DataStore = Store:StartSessionAsync(`{Player.Name}-{Player.UserId}`, {
-		Cancel = function()
-			return Player.Parent ~= Players
-		end,
-	})
-
-	if not self.DataStore then
-		Logging.Message({
-			Level = "FATAL",
-			Message = `Player {Player.Name} (UID: {Player.UserId})'s data failed to load!`,
-			LogCat = "PLAYER DATA",
+		self.DataStore = Store:StartSessionAsync(`{Player.Name}-{Player.UserId}`, {
+			Cancel = function()
+				return Player.Parent ~= Players
+			end,
 		})
-		Player:Kick("Hey, unfortunately your data failed to load! Please try again later!")
-	end
 
-	self.DataStore:AddUserId(Player.UserId)
-	self.DataStore:Reconcile()
-	self.SessionEnd = self.DataStore.OnSessionEnd:Connect(function()
-		Player:Kick(`Profile session end - Please rejoin`)
+		if not self.DataStore then
+			Logging.Message({
+				Level = "FATAL",
+				Message = `Player {Player.Name} (UID: {Player.UserId})'s data failed to load!`,
+				LogCat = "HYDROGEN: PlayerClass",
+			})
+			Player:Kick("Hey, unfortunately your data failed to load! Please try again later!")
+		end
+
+		self.DataStore:AddUserId(Player.UserId)
+		self.DataStore:Reconcile()
+		self.SessionEnd = self.DataStore.OnSessionEnd:Connect(function()
+			Player:Kick(`Profile session end - Please rejoin`)
+		end)
+
+		self.Data = self.DataStore.Value
+
+		Resolve(setmetatable(self, PlayerClass))
+		return
 	end)
-
-	self.Data = self.DataStore.Value
-
-	return setmetatable(self, PlayerClass) :: PlayerClassType
 end
 
 function PlayerClass.SetDefaultData(Data: { any })

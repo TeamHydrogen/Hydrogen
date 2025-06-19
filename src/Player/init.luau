@@ -24,16 +24,13 @@ function PlayerHandler.SetDataSetCallback(Callback: (Player: Player, Data: { [st
 	PlayerHandler.DataSetCallback = Callback :: any
 end
 
-function PlayerHandler.onPlayerAdded(self: Handler, Player: Player)
-	local NewPlayerObject = PlayerClass.new(Player)
-	self.Players[Player] = NewPlayerObject
-
-	local Data = self:GetPlayerData(Player)
-
-	if not Data then
-		Player:Kick("Sorry, data loading has failed. However, your data is safe! Please rejoin.")
-		return
-	end
+function PlayerHandler.PlayerAdded(self: Handler, Player: Player)
+	PlayerClass.new(Player)
+		:andThen(function(Object)
+			self.Players[Player] = Object
+			return self.Players[Player]
+		end)
+		:catch(warn)
 end
 
 function PlayerHandler.SetCustomData(self: Handler, Player: Player, NewData: { any })
@@ -56,13 +53,20 @@ PlayerHandler.GetPlayerData = function(self: Handler, Player: Player?)
 		end)
 
 		if RunService:IsClient() then
-			return Network.GetPlayerData.Call()
+			local Data = Network.GetPlayerData.Call()
+
+			Resolve(Data)
+			return
 		end
 
 		if not Player then
 			error("On server player must not be nil!")
-			return
+			return true
 		end
+
+		repeat
+			task.wait(0.1)
+		until self.Players[Player]
 
 		local success, err = pcall(function()
 			repeat
@@ -74,18 +78,19 @@ PlayerHandler.GetPlayerData = function(self: Handler, Player: Player?)
 
 		if not success and err then
 			warn(err)
-			error("Data failed to be obtained!")
+			Resolve({})
+			return
 		end
 
 		Resolve(self.Players[Player]["DataStore"].Data :: typeof(self.Players[Player].DataStore.Data))
-		return
-	end)
+	end):catch(warn)
 end
 
 PlayerHandler.SetPlayerData = function(self: typeof(PlayerHandler), Player: Player, NewData: {})
 	assert(RunService:IsServer(), "SetPlayerData Must be ran from the server!")
 
-	local Data = self:GetPlayerData(Player):expect()
+	local Data = self:GetPlayerData(Player):expect() :: any
+
 	local NewDictionary = FunctionLib:MergeDictionary(Data, NewData)
 
 	if PlayerHandler.DataSetCallback then
@@ -111,21 +116,22 @@ function PlayerHandler.Start(Config: {
 	end
 
 	Network.GetPlayerData.SetCallback(function(Player: Player)
-		PlayerHandler:GetPlayerData(Player):andThen(function(Data)
-			local ClonedTable = FunctionLib:CopyDeep(Data)
-
-			return ClonedTable :: any
-		end)
+		local PlayerObject = PlayerHandler.Players[Player]
+		if not PlayerObject or not PlayerObject.DataStore then
+			return {}
+		end
+		local ClonedTable = FunctionLib:CopyDeep(PlayerObject.DataStore.Data)
+		return ClonedTable
 	end)
 
 	PlayerClass.SetDefaultData(Config.DefaultData)
 
 	for _, Player in Players:GetPlayers() do
-		PlayerHandler:onPlayerAdded(Player)
+		PlayerHandler:PlayerAdded(Player)
 	end
 
 	Players.PlayerAdded:Connect(function(Player)
-		PlayerHandler:onPlayerAdded(Player)
+		PlayerHandler:PlayerAdded(Player)
 	end)
 
 	Players.PlayerRemoving:Connect(function(Player)
