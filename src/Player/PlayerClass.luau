@@ -1,9 +1,8 @@
 --!strict
 
 local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
-local Promise = require(ReplicatedStorage.Hydrogen.Packages.Promise)
+local Promise = require(script.Parent.Parent.Packages.Promise)
 local Logging = require(script.Parent.Parent.Logging)
 local ProfileStore
 

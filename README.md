@@ -23,7 +23,7 @@ pesde.toml:
 
 ```toml
 [dependencies]
-hydrogen = { name = "teamhydrogen/hydrogen", version = "^0.2.2"}
+hydrogen = { name = "teamhydrogen/hydrogen", version = "^0.2.4"}
 ```
 
 ## Usage:

@@ -1,8 +1,6 @@
 local Players = game:GetService("Players")
-local RemoteCursorService = game:GetService("RemoteCursorService")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
-local Promise = require(ReplicatedStorage.Hydrogen.Packages.Promise)
+local Promise = require(script.Parent.Packages.Promise)
 local Logging = require(script.Parent.Logging)
 local FunctionLib = require(script.Parent.Util.FunctionLib)
 
