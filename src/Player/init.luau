@@ -88,7 +88,7 @@ end
 
 PlayerHandler.SetPlayerData = function(self: typeof(PlayerHandler), Player: Player, NewData: {})
 	return Promise.new(function(resolve, fail)
-		if RunService:IsServer() then
+		if not RunService:IsServer() then
 			fail("Hydrogen PlayerHandler: SetPlayerData Must be ran from the server!")
 		end
 

@@ -1,6 +1,6 @@
 [package]
 name = "teamhydrogen/hydrogen"
-version = "0.2.5"
+version = "0.2.6"
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
 authors = ["Sophie B"]

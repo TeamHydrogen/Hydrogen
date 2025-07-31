@@ -13,7 +13,7 @@
 ### With wally
 
 ```toml
-	hydrogen = "teamhydrogen/hydrogen@0.2.5"
+	hydrogen = "teamhydrogen/hydrogen@0.2.6"
 ```
 
 ### With pesde
@@ -29,7 +29,7 @@ pesde.toml:
 
 ```toml
 [dependencies]
-hydrogen = { name = "teamhydrogen/hydrogen", version = "^0.2.5"}
+hydrogen = { name = "teamhydrogen/hydrogen", version = "^0.2.6"}
 ```
 
 ## Usage:
