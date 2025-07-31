@@ -87,25 +87,30 @@ PlayerHandler.GetPlayerData = function(self: Handler, Player: Player?)
 end
 
 PlayerHandler.SetPlayerData = function(self: typeof(PlayerHandler), Player: Player, NewData: {})
-	assert(RunService:IsServer(), "SetPlayerData Must be ran from the server!")
-
-	local Data = self:GetPlayerData(Player):expect() :: any
-
-	local NewDictionary = FunctionLib:MergeDictionary(Data, NewData)
-
-	if PlayerHandler.DataSetCallback then
-		PlayerHandler.DataSetCallback(Player, NewDictionary)
-	end
-
-	if self.Players[Player]["DataStore"] then
-		for Key, Value in NewDictionary do
-			self.Players[Player]["DataStore"].Data[Key] = Value
+	return Promise.new(function(resolve, fail)
+		if RunService:IsServer() then
+			fail("Hydrogen PlayerHandler: SetPlayerData Must be ran from the server!")
 		end
-	end
 
-	self.Players[Player]["Data"] = NewDictionary
+		local Data = self:GetPlayerData(Player):expect() :: any
 
-	return NewDictionary
+		local NewDictionary = FunctionLib:MergeDictionary(Data, NewData)
+
+		if PlayerHandler.DataSetCallback then
+			PlayerHandler.DataSetCallback(Player, NewDictionary)
+		end
+
+		if self.Players[Player]["DataStore"] then
+			for Key, Value in NewDictionary do
+				self.Players[Player]["DataStore"].Data[Key] = Value
+			end
+		end
+
+		self.Players[Player]["Data"] = NewDictionary
+
+		resolve(NewDictionary)
+		return NewDictionary
+	end):catch(warn)
 end
 
 function PlayerHandler.Start(Config: {

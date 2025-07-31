@@ -10,6 +10,12 @@
 
 ## Install
 
+### With wally
+
+```toml
+	hydrogen = "teamhydrogen/hydrogen@0.2.5"
+```
+
 ### With pesde
 
 ```sh
@@ -23,7 +29,7 @@ pesde.toml:
 
 ```toml
 [dependencies]
-hydrogen = { name = "teamhydrogen/hydrogen", version = "^0.2.4"}
+hydrogen = { name = "teamhydrogen/hydrogen", version = "^0.2.5"}
 ```
 
 ## Usage:
@@ -87,6 +93,8 @@ Data is a table with a key and what you want to set the key to
 ```lua
 PlayerHandler:SetPlayerData(Player, {Coins = 300}) -- Sets coins to 300
 ```
+
+Note: You can also run :expect() at the end of SetPlayerData to return the new data that has been set.
 
 You get data with
 
