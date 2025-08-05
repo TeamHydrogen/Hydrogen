@@ -7,3 +7,7 @@ test-sourcemap.json
 luau_packages
 lune_packages
 roblox_packages
+docs/.vitepress/dist
+docs/.vitepress/cache
+node_modules
+.vitepress
