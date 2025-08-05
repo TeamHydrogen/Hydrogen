@@ -7,3 +7,9 @@ test-sourcemap.json
 luau_packages
 lune_packages
 roblox_packages
+
+**/cache/**
+**/dist/**
+.DS_Store
+node_modules
+globalTypes.d.luau
