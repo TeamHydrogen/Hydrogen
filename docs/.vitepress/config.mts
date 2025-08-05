@@ -28,7 +28,7 @@ export default defineConfig({
     ]
   },
   head: [
-    ['link', { rel: 'icon', href: '../assets/bubbles_gradient.png' }]
+    ['link', { rel: 'icon', href: '/public/bubbles_gradient.png' }]
   ],
   cleanUrls: true
 })
