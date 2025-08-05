@@ -8,12 +8,11 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' }
     ],
 
     sidebar: [
       {
-        text: 'Examples',
+        text: 'Introduction',
         items: [
           { text: 'Markdown Examples', link: '/markdown-examples' },
           { text: 'Runtime API Examples', link: '/api-examples' }
@@ -21,9 +20,15 @@ export default defineConfig({
       }
     ],
 
+    logo: '../assets/bubbles_gradient.png',
+
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/teamhydrogen/hydrogen' }
+      { icon: 'github', link: 'https://github.com/teamhydrogen/hydrogen' },
+      { icon: 'discord', link: 'https://discord.gg/mchCdAFPWU' },
     ]
   },
+  head: [
+    ['link', { rel: 'icon', href: '../assets/bubbles_gradient.png' }]
+  ],
   cleanUrls: true
 })

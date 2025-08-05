@@ -5,7 +5,7 @@
 :root {
   --vp-font-family-mono: Menlo, "Noto Sans Mono", ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --vp-layout-max-width: 1490px;
-  --vp-c-accent: rgb(218, 180, 11);
+  --vp-c-accent: rgb(255, 255, 255);
   --vp-c-brand: #00befd;
   --vp-c-brand-light: #92d1ff;
   --vp-c-brand-lighter: #b8e1ff;
@@ -13,10 +13,10 @@
   --vp-c-brand-darker: #1683d1;
   --vp-c-green-light: #86ff94;
   --vp-button-brand-bg: var(--vp-c-brand-dark);
-  --vp-button-alt-bg: #f5f5f5;
-  --vp-button-alt-text: rgb(75, 85, 99);
-  --vp-button-alt-hover-bg: #efeeee;
-  --vp-button-alt-hover-text: rgb(75, 85, 99);
+  --vp-button-alt-bg: #000000;
+  --vp-button-alt-text: rgb(255, 255, 255);
+  --vp-button-alt-hover-bg: #c8c8c8;
+  --vp-button-alt-hover-text: rgb(0, 0, 0);
   --vp-c-bg-nav: rgba(255, 255, 255, 0.7);
   --vp-c-bg-mark: rgb(232, 232, 232);
   --vp-custom-block-info-bg: rgba(171, 210, 244, 0.05);
@@ -42,9 +42,9 @@
   --vp-code-line-highlight-color: rgba(229, 229, 229, 0.5);
   --vp-code-copy-code-hover-bg: rgba(121, 121, 121, 0.1);
   --vp-code-copy-code-active-text: var(--vp-c-text-dark-3);
-  --vp-c-kbd-box-outside-shadow: inset 0 -2px 0 0 #cdcde6, inset 0 0 1px 1px #fff,
+  --vp-c-kbd-box-outside-shadow: inset 0 -2px 0 0 #89d4fe, inset 0 0 1px 1px #fff,
     0 1px 2px 1px rgba(30, 35, 90, 0.4);
-  --vp-c-kbd-box-inside-shadow: inset 1px 1px 2px #cdcde6, inset -1px -1px 4px #fff;
+  --vp-c-kbd-box-inside-shadow: inset 1px 1px 2px #89d4fe, inset -1px -1px 4px #fff;
   --vp-c-docsearch-logo-color: #e87a90;
   --docsearch-container-background: rgba(83, 85, 90, 0.8);
 }
@@ -57,10 +57,10 @@
   --vp-c-bg-nav: rgba(23, 23, 23, 0.8);
   --vp-c-bg-mark: rgb(0, 0, 0);
   --vp-button-brand-bg: var(--vp-c-brand-dark);
-  --vp-button-alt-bg: #484848;
-  --vp-button-alt-text: #f0eeee;
-  --vp-button-alt-hover-bg: #484848;
-  --vp-button-alt-hover-text: #f0eeee;
+  --vp-button-alt-bg: #000000;
+  --vp-button-alt-text: #ffffff;
+  --vp-button-alt-hover-bg: #c8c8c8;
+  --vp-button-alt-hover-text: #000000;
   --vp-custom-block-info-bg: rgba(84, 110, 155, 0.1);
   --vp-custom-block-info-border: #3686b1;
   --vp-custom-block-info-text: #52b0e3;
@@ -94,7 +94,6 @@
 :root {
   --vp-button-brand-active-border: var(--vp-c-brand);
   --vp-button-brand-hover-bg: var(--vp-c-brand-darker);
-  --vp-button-alt-bg: var(--vp-c-bg-mute);
 }
 
 /**
@@ -103,20 +102,32 @@
 
 :root {
   --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: -webkit-linear-gradient(270deg, #00befd 30%, #7fdfff);
-  --vp-home-hero-image-background-image: linear-gradient(-45deg, #ffffff 30%, #00befd);
-  --vp-home-hero-image-filter: blur(30px);
-}
-
-.dark {
-  --vp-home-hero-name-background: -webkit-linear-gradient(270deg, #00befd 30%, #cddfee);
-  --vp-home-hero-image-background-image: linear-gradient(-45deg, #fff1f1 30%, #00befd);
+  --vp-home-hero-name-background: -webkit-linear-gradient(270deg, #00befd 30%, #b5edff);
+  --vp-home-hero-image-background-image: linear-gradient(-45deg, var(--vp-c-brand-dark) 50%, var(--vp-c-brand) 50%);
+  --vp-home-hero-image-filter: blur(60px);
 }
 
 @media (min-width: 640px) {
   :root {
-    --vp-home-hero-image-filter: blur(60px);
+    --vp-home-hero-image-filter: blur(48px);
   }
+}
+
+@media (min-width: 960px) {
+  :root {
+    --vp-home-hero-image-filter: blur(70px);
+  }
+}
+
+/**
+ * Component: Custom Block
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --vp-custom-block-tip-border: transparent;
+  --vp-custom-block-tip-text: var(--vp-c-text-1);
+  --vp-custom-block-tip-bg: var(--vp-c-brand-soft);
+  --vp-custom-block-tip-code-bg: var(--vp-c-brand-soft);
 }
 
 /**
