@@ -11,7 +11,7 @@ hero:
   actions:
     - theme: brand
       text: Get Started
-      link: /installation.md
+      link: /info.md
     - theme: alt
       text: GitHub
       link: https://github.com/teamhydrogen/hydrogen

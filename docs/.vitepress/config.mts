@@ -14,9 +14,16 @@ export default defineConfig({
       {
         text: 'Introduction',
         items: [
+          { text: 'What is Hydrogen?', link: '/info' },
           { text: 'Installation', link: '/installation' },
+        ]
+      },
+      {
+        text: "Using Hydrogen",
+        items: [
           { text: 'Bootstrapping', link: '/bootstrapping' },
         ]
+
       }
     ],
 
