@@ -15,11 +15,11 @@ hero:
       link: /api-examples
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: Customisable
+    details: You don't have to use everything in Hydrogen. Use what you want.
+  - title: Handles the boring stuff
+    details: Data Saving, Sounds, Hitboxes. We'll do that for you, with some extras features.
+  - title: Code how you want
+    details: Under the hood, it's a bootstrapper and utilities. We don't force you into networking techniques or any weird habits.
 ---
 
