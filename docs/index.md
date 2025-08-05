@@ -6,7 +6,7 @@ hero:
   name: "Hydrogen"
   text: "Battery Powered Game Development"
   tagline: Simple, Easy, Powerful. Supercharge your game development with hydrogen power.
-  image: ../../assets/bubbles.png
+  image: /assets/bubbles.png
 
   actions:
     - theme: brand

@@ -20,7 +20,7 @@ export default defineConfig({
       }
     ],
 
-    logo: '../../assets/bubbles_gradient.png',
+    logo: '/assets/bubbles_gradient.png',
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/teamhydrogen/hydrogen' },
