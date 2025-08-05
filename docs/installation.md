@@ -1,6 +1,6 @@
 # Installation
 
--------------------
+Installing Hydrogen is easy! We support both package managers, and github releases!
 
 ## With Wally
 
