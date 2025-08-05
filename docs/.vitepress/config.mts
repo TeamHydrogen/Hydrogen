@@ -20,7 +20,7 @@ export default defineConfig({
       }
     ],
 
-    logo: '/assets/bubbles_gradient.png',
+    logo: 'bubbles_gradient.png',
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/teamhydrogen/hydrogen' },
@@ -28,7 +28,7 @@ export default defineConfig({
     ]
   },
   head: [
-    ['link', { rel: 'icon', href: '/public/bubbles_gradient.png' }]
+    ['link', { rel: 'icon', href: 'bubbles_gradient.png' }]
   ],
   cleanUrls: true
 })
