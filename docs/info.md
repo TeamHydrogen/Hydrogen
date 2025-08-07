@@ -8,15 +8,17 @@ not ideal for large games that need to be expanded.
 
 We have modules for player data, module loading, advanced logging, and more!
 
-> [!CAUTION] A note from Team-Hydrogen:
+> [!CAUTION] A note from Team Hydrogen:
 >
 > Hydrogen is still in development. There may be changes that cause breakages
 > in updates. Please be mindful of these and adjust code accordingly. 
 >
-> We are NOT an ECS, and do **NOT** provide any networking solutions. 
+> We are **NOT** an ECS, and do **NOT** provide any networking solutions. 
 > 
-> An ECS to try is [Jecs](https://ukendio.github.io/jecs/) 
-> A networking solution is [Zap](https://zap.redblox.dev/)
+>
+>  - An ECS to try is [Jecs](https://ukendio.github.io/jecs/) 
+>
+>  - A networking solution is [Zap](https://zap.redblox.dev/)
 
 ## Why Hydrogen?
 

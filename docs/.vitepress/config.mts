@@ -12,16 +12,23 @@ export default defineConfig({
 
     sidebar: [
       {
-        text: 'Introduction',
+        text: '👋 Introduction',
         items: [
           { text: 'What is Hydrogen?', link: '/info' },
           { text: 'Installation', link: '/installation' },
         ]
       },
       {
-        text: "Using Hydrogen",
+        text: "🫧 Using Hydrogen",
         items: [
           { text: 'Bootstrapping', link: '/bootstrapping' },
+        ]
+
+      },
+      {
+        text: "❓ Help us out!",
+        items: [
+          { text: 'Contributing', link: '/contributing/contributing' },
         ]
 
       }
