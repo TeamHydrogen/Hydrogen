@@ -37,6 +37,7 @@ export default defineConfig({
         text: "🫧 Using Hydrogen",
         items: [
           { text: 'Bootstrapping', link: '/bootstrapping' },
+          { text: 'Lifecycles', link: '/lifecycles' },
         ]
 
       },
