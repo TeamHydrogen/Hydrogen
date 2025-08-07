@@ -4,8 +4,23 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "Hydrogen",
   description: "Battery Powered Game Development",
+
+  head: [
+    ['link', { rel: 'icon', href: 'bubbles_gradient.png' }]
+  ],
+
   themeConfig: {
-    // https://vitepress.dev/reference/default-theme-config
+    logo: 'bubbles_gradient.png',
+
+    search: {
+      provider: "local"
+    },
+
+    footer: {
+      message: 'Released under the <a href="https://github.com/teamhydrogen/hydrogen/blob/master/LICENSE">MIT License</a>.',
+      copyright: `Copyright © 2025 <a href="https://github.com/teamhydrogen">Team Hydrogen</a> and it's contributors.`
+    },
+
     nav: [
       { text: 'Home', link: '/' },
     ],
@@ -30,19 +45,14 @@ export default defineConfig({
         items: [
           { text: 'Contributing', link: '/contributing/contributing' },
         ]
-
       }
     ],
-
-    logo: 'bubbles_gradient.png',
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/teamhydrogen/hydrogen' },
       { icon: 'discord', link: 'https://discord.gg/mchCdAFPWU' },
     ]
   },
-  head: [
-    ['link', { rel: 'icon', href: 'bubbles_gradient.png' }]
-  ],
+
   cleanUrls: true
 })

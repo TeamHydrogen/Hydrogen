@@ -14,6 +14,14 @@ hydrogen = "teamhydrogen/hydrogen@0.3.0"
 pesde add teamhydrogen/hydrogen
 ```
 
+### or
+
+```toml
+[dependencies]
+
+hydrogen = { name = "teamhydrogen/hydrogen", version = "^0.3.0" }
+```
+
 ## From Github Releases
 
 This is to be done!
