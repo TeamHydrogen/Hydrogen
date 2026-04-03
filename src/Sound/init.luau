@@ -58,25 +58,31 @@ function SoundHandler._BackendSound(Sound: string, PlayLength: number?, CF: CFra
 
 	NewSound:Play()
 
-	if PlayLength then
-		task.wait(PlayLength)
+	task.spawn(function()
+		if PlayLength then
+			task.wait(PlayLength)
 
-		NewSound:Destroy()
+			NewSound:Destroy()
+
+			if NewPart then
+				NewPart:Destroy()
+			end
+
+			return
+		end
+
+		NewSound.Ended:Wait()
+
+		if NewSound then
+			NewSound:Destroy()
+		end
 
 		if NewPart then
 			NewPart:Destroy()
 		end
+	end)
 
-		return
-	end
-
-	NewSound.Ended:Wait()
-
-	NewSound:Destroy()
-
-	if NewPart then
-		NewPart:Destroy()
-	end
+	return NewSound
 end
 
 function SoundHandler.PlaySound(
@@ -92,11 +98,7 @@ function SoundHandler.PlaySound(
 	end
 
 	if RunService:IsClient() then
-		task.spawn(function()
-			SoundHandler._BackendSound(Sound, PlayLength, CF, Props)
-		end)
-
-		return
+		return SoundHandler._BackendSound(Sound, PlayLength, CF, Props)
 	end
 
 	if Player then
