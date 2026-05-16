@@ -26,7 +26,7 @@ local function CheckSound(Sound: string): boolean
 	return true
 end
 
-function SoundHandler._BackendSound(Sound: string, PlayLength: number?, CF: CFrame?, CustomProps: { [string]: any }?)
+function SoundHandler._BackendSound(Sound: string, PlayLength: number?, CF: CFrame?, CustomProps: { [string]: any }?): Sound
 	if not SoundHandler.Sounds then
 		return
 	end
@@ -91,7 +91,7 @@ function SoundHandler.PlaySound(
 	PlayLength: number?,
 	CF: CFrame?,
 	Props: { [string]: any }?
-)
+): Sound?
 	if not CheckSound(Sound) then
 		error(`Sound {Sound} doesn't exist!`)
 		return
