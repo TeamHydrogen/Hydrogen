@@ -26,7 +26,12 @@ local function CheckSound(Sound: string): boolean
 	return true
 end
 
-function SoundHandler._BackendSound(Sound: string, PlayLength: number?, CF: CFrame?, CustomProps: { [string]: any }?): Sound
+function SoundHandler._BackendSound(
+	Sound: string,
+	PlayLength: number?,
+	CF: CFrame?,
+	CustomProps: { [string]: any }?
+): Sound?
 	if not SoundHandler.Sounds then
 		return
 	end
@@ -38,7 +43,7 @@ function SoundHandler._BackendSound(Sound: string, PlayLength: number?, CF: CFra
 
 	if CustomProps then
 		for PropName, Property in CustomProps do
-			NewSound[PropName] = Property
+			NewSound[PropName] = Property -- yes i know the lsp errors here. i'm not doing anything about it though because it should error if it doesnt exist or we're doing something dumb.
 		end
 	end
 
@@ -106,6 +111,8 @@ function SoundHandler.PlaySound(
 	else
 		Network.PlaySoundOnClient.FireAll(Sound, CF)
 	end
+
+	return
 end
 
 function SoundHandler.Start(Sounds: Folder)

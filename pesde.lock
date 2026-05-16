@@ -2,7 +2,7 @@
 # It is not intended for manual editing.
 format = 1
 name = "teamhydrogen/hydrogen"
-version = "0.2.6"
+version = "0.3.0"
 target = "roblox"
 
 [graph."0x5eal/unzip@0.1.3 luau"]
@@ -95,7 +95,6 @@ ref_ty = "pesde"
 index_url = "https://github.com/daimond113/pesde-index"
 
 [graph."pesde/rojo@7.4.4 lune"]
-direct = ["rojo", { name = "pesde/rojo", version = "^7.4.4", index = "default", target = "lune" }, "dev"]
 resolved_ty = "dev"
 
 [graph."pesde/rojo@7.4.4 lune".dependencies]
@@ -141,42 +140,6 @@ index_url = "https://github.com/daimond113/pesde-index"
 core = [{ name = "pesde/scripts_core", version = "^0.0.1", index = "https://github.com/pesde-pkg/index", target = "lune" }, "standard"]
 rojo = [{ name = "pesde/rojo", version = "^7.4.4", index = "https://github.com/pesde-pkg/index" }, "peer"]
 
-[graph."pesde/selene@0.28.0 lune"]
-direct = ["selene", { name = "pesde/selene", version = "^0.28.0", index = "default", target = "lune" }, "dev"]
-resolved_ty = "dev"
-
-[graph."pesde/selene@0.28.0 lune".dependencies]
-"lukadev_0/option@1.2.0 lune" = "option"
-"lukadev_0/result@1.2.0 lune" = "result"
-"pesde/toolchainlib@0.1.13 lune" = "core"
-
-[graph."pesde/selene@0.28.0 lune".pkg_ref]
-ref_ty = "pesde"
-index_url = "https://github.com/daimond113/pesde-index"
-
-[graph."pesde/selene@0.28.0 lune".pkg_ref.dependencies]
-core = [{ name = "pesde/toolchainlib", version = "^0.1.8", index = "https://github.com/daimond113/pesde-index", target = "lune" }, "standard"]
-option = [{ name = "lukadev_0/option", version = "^1.2.0", index = "https://github.com/daimond113/pesde-index" }, "standard"]
-result = [{ name = "lukadev_0/result", version = "^1.2.0", index = "https://github.com/daimond113/pesde-index" }, "standard"]
-
-[graph."pesde/stylua@2.1.0 lune"]
-direct = ["stylua", { name = "pesde/stylua", version = "^2.0.2", index = "default", target = "lune" }, "dev"]
-resolved_ty = "dev"
-
-[graph."pesde/stylua@2.1.0 lune".dependencies]
-"lukadev_0/option@1.2.0 lune" = "option"
-"lukadev_0/result@1.2.0 lune" = "result"
-"pesde/toolchainlib@0.1.13 lune" = "core"
-
-[graph."pesde/stylua@2.1.0 lune".pkg_ref]
-ref_ty = "pesde"
-index_url = "https://github.com/daimond113/pesde-index"
-
-[graph."pesde/stylua@2.1.0 lune".pkg_ref.dependencies]
-core = [{ name = "pesde/toolchainlib", version = "^0.1.13", index = "https://github.com/pesde-pkg/index", target = "lune" }, "standard"]
-option = [{ name = "lukadev_0/option", version = "^1.2.0", index = "https://github.com/pesde-pkg/index" }, "standard"]
-result = [{ name = "lukadev_0/result", version = "^1.2.0", index = "https://github.com/pesde-pkg/index" }, "standard"]
-
 [graph."pesde/toolchainlib@0.1.13 lune"]
 resolved_ty = "standard"
 
@@ -197,21 +160,3 @@ option = [{ name = "lukadev_0/option", version = "^1.2.0", index = "https://gith
 pathfs = [{ name = "jiwonz/pathfs", version = "^0.3.0", index = "https://github.com/pesde-pkg/index" }, "standard"]
 result = [{ name = "lukadev_0/result", version = "^1.2.0", index = "https://github.com/pesde-pkg/index" }, "peer"]
 unzip = [{ name = "0x5eal/unzip", version = "^0.1.0", index = "https://github.com/pesde-pkg/index", target = "luau" }, "standard"]
-
-[graph."pesde/zap@0.6.20 lune"]
-direct = ["zap", { name = "pesde/zap", version = "^0.6.19", index = "default", target = "lune" }, "dev"]
-resolved_ty = "dev"
-
-[graph."pesde/zap@0.6.20 lune".dependencies]
-"lukadev_0/option@1.2.0 lune" = "option"
-"lukadev_0/result@1.2.0 lune" = "result"
-"pesde/toolchainlib@0.1.13 lune" = "core"
-
-[graph."pesde/zap@0.6.20 lune".pkg_ref]
-ref_ty = "pesde"
-index_url = "https://github.com/daimond113/pesde-index"
-
-[graph."pesde/zap@0.6.20 lune".pkg_ref.dependencies]
-core = [{ name = "pesde/toolchainlib", version = "^0.1.12", index = "https://github.com/pesde-pkg/index", target = "lune" }, "standard"]
-option = [{ name = "lukadev_0/option", version = "^1.2.0", index = "https://github.com/pesde-pkg/index" }, "standard"]
-result = [{ name = "lukadev_0/result", version = "^1.2.0", index = "https://github.com/pesde-pkg/index" }, "standard"]

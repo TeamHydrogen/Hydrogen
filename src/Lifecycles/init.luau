@@ -1,6 +1,5 @@
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
-local Promise = require(script.Parent.Packages.Promise)
 local Logging = require(script.Parent.Logging)
 local FunctionLib = require(script.Parent.Util.FunctionLib)
 
@@ -81,35 +80,23 @@ function Lifecycles.Run(Modules: { any }, PossibleLifecycles: { typeof(Lifecycle
 end
 
 function Lifecycles.New(Name: string, Connection: RBXScriptSignal)
-	return Promise.new(function(Resolve, Reject)
-		local CustomLifecycleTable = CustomCycles[RunService:IsServer() and "Server" or "Client"]
+	local CustomLifecycleTable = CustomCycles[RunService:IsServer() and "Server" or "Client"]
 
-		if CustomLifecycleTable[Name] then
-			Logging.Message({
-				Message = "You already have a lifecycle with this name! Overriding",
-				Level = "WARN",
-				LogCat = "HYDROGEN LIFECYCLES: ",
-			})
-		end
+	if CustomLifecycleTable[Name] then
+		Logging.Message({
+			Message = `Lifecycle {Name} already exists, overriding.`,
+			Level = "WARN",
+			LogCat = "Hydrogen Framework Lifecycle Handler",
+		})
+	end
 
-		CustomLifecycleTable[Name] = Connection
-
-		if not CustomLifecycleTable[Name] then
-			Reject(`HYDROGEN: Failed to add lifecycle: {Name}`)
-		end
-
-		Resolve(true)
-	end):catch(warn)
+	CustomLifecycleTable[Name] = Connection
 end
 
 function Lifecycles.Chain(NewLifecycles: { [string]: RBXScriptSignal })
-	return Promise.new(function(Resolve)
-		for Name, Connection in NewLifecycles do
-			Lifecycles.New(Name, Connection):expect():catch(warn)
-		end
-
-		Resolve(true)
-	end)
+	for Name, Connection in NewLifecycles do
+		Lifecycles.New(Name, Connection)
+	end
 end
 
 return Lifecycles

@@ -4,7 +4,7 @@
 	Created by railworks2, used with written permission.
 ]=]
 local RunService = game:GetService("RunService")
-local Promise = require(script.Parent.Packages.Promise)
+local Future = require(script.Parent.Packages.Future)
 local Log = {}
 
 --[=[
@@ -82,7 +82,7 @@ end
 
 	**Note:** Return can be nil if there is no traceback
 ]=]
-local function cleanupTraceback(debugTraceback: string)
+local function cleanupTraceback(debugTraceback: string): string?
 	local tracebackArray = {}
 	local doNotShowLogsFromHere = { ".Log:", ".ClientCore:", ".ServerCore:", ".promise:" }
 
@@ -118,16 +118,16 @@ end
 
 	Creates a message to be logged. Everything uses this function.
 
-	Example 1: 
+	Example 1:
 	> [INFO][LOG] This is an example logging message - Shared.Log:111 - Client
 
 	Example 2:
-	
-	> [ERROR][LOAD][ID: NotActive] Failed to start module TestModule due to the Active flag not being enabled - Shared.Log:111 - Server  
-	> &nbsp;Data: {"testData"}   
-	> &nbsp;Traceback: Shared.UILoad:62   
+
+	> [ERROR][LOAD][ID: NotActive] Failed to start module TestModule due to the Active flag not being enabled - Shared.Log:111 - Server
+	> &nbsp;Data: {"testData"}
+	> &nbsp;Traceback: Shared.UILoad:62
 	> &nbsp;Server.Load:152
-	
+
 ]=]
 function Log.Message(
 	config: {
@@ -143,7 +143,7 @@ function Log.Message(
 	local scriptName, scriptLine = debug.info(2, "sl")
 	local data = if ... then { ... } else nil
 
-	Promise.new(function()
+	Future.new(function()
 		if Log.Config[config.Level] and Log.Config[config.Level].Enabled == true then
 			local startOfMessage = `[{config.Level}][{string.upper(config.LogCat) or "NOCAT"}]`
 			if config.LogRef ~= nil then
@@ -155,14 +155,14 @@ function Log.Message(
 				else "Client"}`
 			if data ~= nil then
 				print(data)
-				endOfMessage ..= "\n\t\tData: " .. data
+				endOfMessage ..= "\n\t\tData: " .. data :: any
 			end
 
 			if
 				(Log.Config[config.Level].Traceback == true or config.ForceTraceback == true)
 				and cleanupTraceback(debugTraceback) ~= nil
 			then
-				endOfMessage ..= "\n\t\tTraceback: " .. cleanupTraceback(debugTraceback)
+				endOfMessage ..= "\n\t\tTraceback: " .. cleanupTraceback(debugTraceback) :: string
 			end
 
 			Log.Config[config.Level].Command(`{startOfMessage} {config.Message} {endOfMessage}`)

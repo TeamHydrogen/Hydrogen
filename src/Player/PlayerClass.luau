@@ -2,8 +2,8 @@
 
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
-local Promise = require(script.Parent.Parent.Packages.Promise)
 local Logging = require(script.Parent.Parent.Logging)
+local Future = require(script.Parent.Parent.Packages.Future)
 local ProfileStore
 
 local Store = nil :: any
@@ -13,7 +13,7 @@ local Store = nil :: any
 local PlayerClass = {}
 PlayerClass.__index = PlayerClass
 
-PlayerClass.DefaultData = {}
+PlayerClass.DefaultData = {} :: any
 
 if RunService:IsServer() then
 	ProfileStore = require(script.Parent.Parent.Packages.ProfileStore)
@@ -31,13 +31,13 @@ export type PlayerClassType = typeof(setmetatable(
 	PlayerClass
 ))
 
-function PlayerClass.new(Player: Player): any
+function PlayerClass.new(Player: Player): Future.Future<PlayerClassType>?
 	if RunService:IsClient() then
 		error("PlayerClass cannot be ran on client!")
 		return
 	end
 
-	return Promise.new(function(Resolve)
+	return Future.new(function(): PlayerClassType
 		local self = {}
 
 		self.Player = Player :: Player
@@ -69,12 +69,11 @@ function PlayerClass.new(Player: Player): any
 
 		self.Data = self.DataStore.Value
 
-		Resolve(setmetatable(self, PlayerClass))
-		return
+		return setmetatable(self, PlayerClass) :: PlayerClassType
 	end)
 end
 
-function PlayerClass.SetDefaultData(Data: { any })
+function PlayerClass.SetDefaultData<T>(Data: T)
 	PlayerClass.DefaultData = Data
 
 	if RunService:IsServer() then

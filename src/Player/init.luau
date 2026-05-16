@@ -11,11 +11,13 @@ else
 	Network = require(script.Parent["_PRIVATE_HYDROGEN_network"].client) :: any
 end
 
-local Promise = require(script.Parent.Packages.Promise)
+local Logging = require(script.Parent.Logging)
+local Future = require(script.Parent.Packages.Future)
 local FunctionLib = require(script.Parent.Util.FunctionLib)
 local PlayerClass = require(script.PlayerClass)
 
 local PlayerHandler = {}
+
 PlayerHandler.Players = {} :: { [Player]: PlayerClass.PlayerClassType }
 PlayerHandler.DataSetCallback = nil :: (Player: Player, Data: { any }) -> ()?
 type Handler = typeof(PlayerHandler)
@@ -25,12 +27,11 @@ function PlayerHandler.SetDataSetCallback(Callback: (Player: Player, Data: { [st
 end
 
 function PlayerHandler.PlayerAdded(self: Handler, Player: Player)
-	PlayerClass.new(Player)
-		:andThen(function(Object)
-			self.Players[Player] = Object
-			return self.Players[Player]
-		end)
-		:catch(warn)
+	local Object = PlayerClass.new(Player)
+
+	if Object then
+		self.Players[Player] = Object:Await()
+	end
 end
 
 function PlayerHandler.SetCustomData(self: Handler, Player: Player, NewData: { any })
@@ -45,54 +46,60 @@ PlayerHandler.onPlayerRemoving = function(self: Handler, Player: Player)
 	self.Players[Player] = nil
 end
 
-PlayerHandler.GetPlayerData = function(self: Handler, Player: Player?)
-	return Promise.new(function(Resolve, _, Cancel)
-		Cancel(function()
-			Resolve({})
-			return true
-		end)
-
+function PlayerHandler.GetPlayerData(self: Handler, Player: Player): Future.Future<{ any }>
+	return Future.new(function()
 		if RunService:IsClient() then
 			local Data = Network.GetPlayerData.Call()
 
-			Resolve(Data)
-			return
+			return Data
 		end
 
 		if not Player then
-			error("On server player must not be nil!")
-			return true
+			Logging.Message({
+				Level = "ERROR",
+				LogCat = "Hydrogen Framework Data Handler",
+				Message = "Argument 'Player' missing or nil. Hint: Did you forget to pass Player in?",
+			})
+			return {}
 		end
 
-		repeat
-			task.wait(0.1)
-		until self.Players[Player]
+		while not self.Players[Player] do -- Yield, we use a while loop as if it's loaded then why wait a frame using a repeat statement?
+			task.wait()
+		end
 
-		local success, err = pcall(function()
+		local Attempts = 0
+
+		if not self.Players[Player]["DataStore"] then -- Throw it in an if statement so that we don't start yielding for data that we already have.
 			repeat
-				task.wait(0.1)
-			until self.Players[Player]["DataStore"] ~= nil
+				task.wait(0.1) -- Yield every 0.1 seconds, it's fast enough.
+			until self.Players[Player]["DataStore"] ~= nil or Attempts >= 50 -- Make sure we have the data loaded or not. Data loading should not take longer than 5 seconds.
 
-			return true
-		end)
-
-		if not success and err then
-			warn(err)
-			Resolve({})
-			return
+			if Attempts >= 50 then
+				Logging.Message({
+					Level = "FATAL",
+					LogCat = "Hydrogen Framework Data Handler",
+					Message = "We failed to load ",
+				})
+				return {}
+			end
 		end
 
-		Resolve(self.Players[Player]["DataStore"].Data :: typeof(self.Players[Player].DataStore.Data))
-	end):catch(warn)
+		return self.Players[Player]["DataStore"].Data
+	end)
 end
 
 PlayerHandler.SetPlayerData = function(self: typeof(PlayerHandler), Player: Player, NewData: {})
-	return Promise.new(function(resolve, fail)
+	return Future.new(function()
 		if not RunService:IsServer() then
-			fail("Hydrogen PlayerHandler: SetPlayerData Must be ran from the server!")
+			Logging.Message({
+				Level = "WARN",
+				LogCat = "Hydrogen Framework Data Handler",
+				Message = "Data cannot be set on the client. No data saved. Hint: Run this on the server.",
+			})
+			return self:GetPlayerData(Player):Await()
 		end
 
-		local Data = self:GetPlayerData(Player):expect() :: any
+		local Data = self:GetPlayerData(Player):Await()
 
 		local NewDictionary = FunctionLib:MergeDictionary(Data, NewData)
 
@@ -108,13 +115,12 @@ PlayerHandler.SetPlayerData = function(self: typeof(PlayerHandler), Player: Play
 
 		self.Players[Player]["Data"] = NewDictionary
 
-		resolve(NewDictionary)
 		return NewDictionary
-	end):catch(warn)
+	end)
 end
 
 function PlayerHandler.Start(Config: {
-	DefaultData: {},
+	DefaultData: { any },
 })
 	if RunService:IsClient() then
 		return

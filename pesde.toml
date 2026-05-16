@@ -1,5 +1,5 @@
 name = "teamhydrogen/hydrogen"
-version = "0.2.8"
+version = "0.3.0"
 description = "Game framework for Roblox with all the essentials needed!"
 authors = ["Sophie B"]
 license = "MIT"
@@ -28,7 +28,3 @@ default = "https://github.com/UpliftGames/wally-index"
 
 [dev_dependencies]
 scripts = { name = "pesde/scripts_rojo", version = "^0.1.0", target = "lune" }
-rojo = { name = "pesde/rojo", version = "^7.4.4", target = "lune" }
-selene = { name = "pesde/selene", version = "^0.28.0", target = "lune" }
-stylua = { name = "pesde/stylua", version = "^2.0.2", target = "lune" }
-zap = { name = "pesde/zap", version = "^0.6.19", target = "lune" }
