@@ -36,7 +36,7 @@ end
 
 function PlayerHandler.SetCustomData(self: Handler, Player: Player, NewData: { any })
 	local Data = self.Players[Player].CustomData
-	local NewDictionary = FunctionLib:MergeDictionary(Data, NewData)
+	local NewDictionary = FunctionLib:MergeDictionary(Data, NewData :: any) :: { any }
 
 	self.Players[Player].CustomData = NewDictionary
 end
@@ -46,7 +46,7 @@ PlayerHandler.onPlayerRemoving = function(self: Handler, Player: Player)
 	self.Players[Player] = nil
 end
 
-function PlayerHandler.GetPlayerData(self: Handler, Player: Player?): Future.Future<{ any }>
+function PlayerHandler.GetPlayerData(self: Handler, Player: Player?): Future.Future<{ [string]: any }>
 	return Future.new(function()
 		if RunService:IsClient() then
 			local Data = Network.GetPlayerData.Call()
@@ -88,7 +88,11 @@ function PlayerHandler.GetPlayerData(self: Handler, Player: Player?): Future.Fut
 	end)
 end
 
-PlayerHandler.SetPlayerData = function(self: typeof(PlayerHandler), Player: Player, NewData: {})
+PlayerHandler.SetPlayerData = function(
+	self: typeof(PlayerHandler),
+	Player: Player,
+	NewData: { [string]: any }
+): { [string]: any }
 	return Future.new(function()
 		if not RunService:IsServer() then
 			Logging.Message({
@@ -101,7 +105,7 @@ PlayerHandler.SetPlayerData = function(self: typeof(PlayerHandler), Player: Play
 
 		local Data = self:GetPlayerData(Player):Await()
 
-		local NewDictionary = FunctionLib:MergeDictionary(Data, NewData)
+		local NewDictionary = FunctionLib:MergeDictionary(Data :: { [string]: any }, NewData :: { [string]: any })
 
 		if PlayerHandler.DataSetCallback then
 			PlayerHandler.DataSetCallback(Player, NewDictionary)
@@ -115,12 +119,12 @@ PlayerHandler.SetPlayerData = function(self: typeof(PlayerHandler), Player: Play
 
 		self.Players[Player]["Data"] = NewDictionary
 
-		return NewDictionary
+		return NewDictionary :: { [string]: any }
 	end)
 end
 
 function PlayerHandler.Start(Config: {
-	DefaultData: { any },
+	DefaultData: { [string]: any },
 })
 	if RunService:IsClient() then
 		return

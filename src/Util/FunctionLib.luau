@@ -117,7 +117,7 @@ end
 
 --// FUNCTIONS LABELLED BELOW ARE FROM SIFT. ALL CREDIT TO CXMEEL AND CONTRIBUTORS TO SIFT
 
-function FunctionLib:MergeDictionary<T>(...: { any }): T
+function FunctionLib:MergeDictionary(...: { [any]: any }): { [any]: any }
 	local result = {}
 
 	for dictionaryIndex = 1, select("#", ...) do
@@ -132,7 +132,7 @@ function FunctionLib:MergeDictionary<T>(...: { any }): T
 		end
 	end
 
-	return result :: any
+	return result
 end
 
 function FunctionLib:CopyDeep<T>(dictionary: T): T

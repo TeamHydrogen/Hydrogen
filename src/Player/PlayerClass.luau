@@ -13,7 +13,7 @@ local Store = nil :: any
 local PlayerClass = {}
 PlayerClass.__index = PlayerClass
 
-PlayerClass.DefaultData = {} :: any
+PlayerClass.DefaultData = {} :: { [string]: any }
 
 if RunService:IsServer() then
 	ProfileStore = require(script.Parent.Parent.Packages.ProfileStore)
@@ -33,7 +33,11 @@ export type PlayerClassType = typeof(setmetatable(
 
 function PlayerClass.new(Player: Player): Future.Future<PlayerClassType>?
 	if RunService:IsClient() then
-		error("PlayerClass cannot be ran on client!")
+		Logging.Message({
+			LogCat = "Hydrogen Framework PlayerClass",
+			Message = "You cannot run PlayerClass on the client.",
+			Level = "WARN",
+		})
 		return
 	end
 
@@ -42,7 +46,7 @@ function PlayerClass.new(Player: Player): Future.Future<PlayerClassType>?
 
 		self.Player = Player :: Player
 		self.Data = PlayerClass.DefaultData
-		self.CustomData = {}
+		self.CustomData = {} :: { any }
 		self.SessionEnd = nil :: any
 		self.DataStore = nil :: any
 
@@ -73,7 +77,7 @@ function PlayerClass.new(Player: Player): Future.Future<PlayerClassType>?
 	end)
 end
 
-function PlayerClass.SetDefaultData<T>(Data: T)
+function PlayerClass.SetDefaultData(Data: { [string]: any })
 	PlayerClass.DefaultData = Data
 
 	if RunService:IsServer() then

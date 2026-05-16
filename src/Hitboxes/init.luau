@@ -10,8 +10,8 @@ approach to this or functional
 The api would look something similar to this for OOP:
 
 HitboxHandler.new()
-Hitbox:itemEnteredHitbox(function() 
-    -- avoid 
+Hitbox:itemEnteredHitbox(function()
+    -- avoid
 end)
 Hitbox:Destroy() -- cleans everything up
 
@@ -21,7 +21,7 @@ Or
 
 HitboxHandler.CreateHitbox("HitboxName")
 HitboxHandler.HitboxEntered("HitboxName", function(Part)
-    
+
 end)
 HitboxHandler.DestroyHitbox("HitboxName")
 
