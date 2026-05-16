@@ -46,7 +46,7 @@ PlayerHandler.onPlayerRemoving = function(self: Handler, Player: Player)
 	self.Players[Player] = nil
 end
 
-function PlayerHandler.GetPlayerData(self: Handler, Player: Player): Future.Future<{ any }>
+function PlayerHandler.GetPlayerData(self: Handler, Player: Player?): Future.Future<{ any }>
 	return Future.new(function()
 		if RunService:IsClient() then
 			local Data = Network.GetPlayerData.Call()
@@ -96,7 +96,7 @@ PlayerHandler.SetPlayerData = function(self: typeof(PlayerHandler), Player: Play
 				LogCat = "Hydrogen Framework Data Handler",
 				Message = "Data cannot be set on the client. No data saved. Hint: Run this on the server.",
 			})
-			return self:GetPlayerData(Player):Await()
+			return self:GetPlayerData(Players.LocalPlayer):Await()
 		end
 
 		local Data = self:GetPlayerData(Player):Await()
