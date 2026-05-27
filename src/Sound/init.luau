@@ -2,6 +2,8 @@
 
 local RunService = game:GetService("RunService")
 local FunctionLib = require(script.Parent.Util.FunctionLib)
+local Logging = require(script.Parent.Logging)
+
 local Network
 
 if RunService:IsServer() then
@@ -98,7 +100,12 @@ function SoundHandler.PlaySound(
 	Props: { [string]: any }?
 ): Sound?
 	if not CheckSound(Sound) then
-		error(`Sound {Sound} doesn't exist!`)
+		Logging.Message({
+			Level = "ERROR",
+			LogCat = "Hydrogen Framework Sound Handler",
+			Message = "Invalid sound! Hint: Does it exist?",
+		})
+
 		return
 	end
 
@@ -116,7 +123,15 @@ function SoundHandler.PlaySound(
 end
 
 function SoundHandler.Start(Sounds: Folder)
-	assert(Sounds, "Hydrogen SoundHandler: Sounds Must be set to a folder")
+	if not Sounds then
+		Logging.Message({
+			Level = "WARN",
+			LogCat = "Hydrogen Framework Sound Handler",
+			Message = "Sounds folder not found. Hint: Does it exist?",
+		})
+		return
+	end
+
 	SoundHandler.Sounds = Sounds
 
 	if RunService:IsServer() then

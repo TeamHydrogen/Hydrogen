@@ -72,13 +72,14 @@ function PlayerHandler.GetPlayerData(self: Handler, Player: Player?): Future.Fut
 		if not self.Players[Player]["DataStore"] then -- Throw it in an if statement so that we don't start yielding for data that we already have.
 			repeat
 				task.wait(0.1) -- Yield every 0.1 seconds, it's fast enough.
+				Attempts += 1
 			until self.Players[Player]["DataStore"] ~= nil or Attempts >= 50 -- Make sure we have the data loaded or not. Data loading should not take longer than 5 seconds.
 
 			if Attempts >= 50 then
 				Logging.Message({
 					Level = "FATAL",
 					LogCat = "Hydrogen Framework Data Handler",
-					Message = "We failed to load ",
+					Message = `We failed to load player {Player.Name}'s data. We have returned an empty table for their data.`,
 				})
 				return {}
 			end

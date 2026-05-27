@@ -12,3 +12,4 @@ roblox_packages
 .DS_Store
 node_modules
 globalTypes.d.luau
+*.ini

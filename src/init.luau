@@ -85,7 +85,20 @@ function Hydrogen.Start(Config: {
 		end
 
 		task.spawn(function()
-			local _RequiredDescendant = require(Descendant) :: any
+			local Success, Error = pcall(function()
+				return require(Descendant) :: any and true or false
+			end)
+
+			if not Success then
+				Hydrogen.Logging.Message({
+					Level = "FATAL",
+					LogCat = "Hydrogen Framework Bootstrapper",
+					Message = `We failed to load module {Descendant.Name}, See the following error message: {Error}`,
+				})
+
+				return
+			end
+
 			table.insert(Hydrogen[Runtime].ModuleNames, Descendant.Name)
 			table.insert(Hydrogen[Runtime].RequiredModules, Descendant)
 
