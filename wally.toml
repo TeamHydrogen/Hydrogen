@@ -1,6 +1,6 @@
 [package]
 name = "teamhydrogen/hydrogen"
-version = "0.3.5"
+version = "0.3.6"
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
 authors = ["Sophie B"]
@@ -27,5 +27,6 @@ exclude = [
     "sourcemap.json",
     "test.project.json",
     "CREDITS.md"
+    "Desktop.ini"
 
 ]
