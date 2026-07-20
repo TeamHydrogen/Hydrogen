@@ -13,8 +13,8 @@ lune = "^0.8.9"
 
 [target]
 environment = "roblox"
-lib = "src/init.luau"
-build_files = ["src"]
+lib = "init.luau"
+build_files = ["."]
 
 [indices]
 default = "https://github.com/daimond113/pesde-index"
