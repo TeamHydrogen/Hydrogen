@@ -37,7 +37,7 @@ For the rest of the documentation, `Handler` will refer to a loaded module on th
 
 ### `RunLifecycles`
 
-Whether to run Hydrogen's [lifecycles](/lifecycles). Accepts either:
+Whether to run Hydrogen's [lifecycles](/4-lifecycles). Accepts either:
 
 | Type               | Behavior                                               |
 | ------------------ | ------------------------------------------------------ |
