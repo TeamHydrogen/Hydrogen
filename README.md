@@ -1,10 +1,9 @@
 <br>
 
 <div align="center">
-    <img src="docs/assets/logo_coloured.svg" width="600" />
+    <img src="docs/public/logo_coloured.svg" width="600" />
+    <h1>Hydrogen</h1>
 </div>
-
-# Hydrogen
 
 ---
 
@@ -20,6 +19,7 @@ Batteries Included Game Framework.
 ---
 
 Roblox games get complex. More systems, more code, more files. Manually requiring code and creating lifecycles is time consuming when you want to start your project.
+<br />
 <br />
 Hydrogen lets you easily load your modules without boilerplate in each one, gives you lifecycles in-built and provides many more utilities that you'd need.
 
