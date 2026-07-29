@@ -9,4 +9,4 @@ license = "MIT"
 [target]
 environment = "shared"
 main = "src/init.luau"
-includes = ["pesde.toml", "LICENSE", "src/**/*.luau", "README.md"]
+includes = ["LICENSE", "src/**/*.luau", "README.md"]

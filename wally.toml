@@ -27,6 +27,7 @@ exclude = [
     "sourcemap.json",
     "test.project.json",
     "CREDITS.md",
-    "Desktop.ini"
+    "Desktop.ini",
+    "node_modules"
 
 ]
