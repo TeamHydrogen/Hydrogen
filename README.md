@@ -1,7 +1,7 @@
 <br>
 
 <div align="center">
-    <img src="docs/public/logo_coloured.svg" width="600" />
+    <img src="docs/public/logo_coloured.svg" width="200" />
     <h1>Hydrogen</h1>
 </div>
 
