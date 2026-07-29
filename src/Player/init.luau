@@ -93,7 +93,7 @@ PlayerHandler.SetPlayerData = function(
 	self: typeof(PlayerHandler),
 	Player: Player,
 	NewData: { [string]: any }
-): { [string]: any }
+): Future.Future<{ [string]: any }>
 	return Future.new(function()
 		if not RunService:IsServer() then
 			Logging.Message({

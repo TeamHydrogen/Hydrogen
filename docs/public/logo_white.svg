@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:serif="http://www.serif.com/" viewBox="0 0 30.09 34.65">
+  <!-- Generator: Adobe Illustrator 30.6.0, SVG Export Plug-In . SVG Version: 2.1.4 Build 109)  -->
+  <defs>
+    <style>
+      .st0 {
+        stroke-width: 1.39px;
+      }
+
+      .st0, .st1, .st2 {
+        fill: #ebebeb;
+        fill-opacity: 0;
+      }
+
+      .st0, .st1, .st2, .st3, .st4 {
+        stroke: #fff;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .st1 {
+        stroke-width: 1.39px;
+      }
+
+      .st2 {
+        stroke-width: 1.39px;
+      }
+
+      .st3 {
+        stroke-width: 2.08px;
+      }
+
+      .st3, .st4 {
+        fill: none;
+      }
+
+      .st4 {
+        stroke-width: 1.39px;
+      }
+    </style>
+  </defs>
+  <g id="Bubbles">
+    <circle class="st1" cx="19.44" cy="10.64" r="9.95"/>
+    <path class="st3" d="M13.56,11.64c.96,3.3,3.24,4.74,6.5,4.8"/>
+    <circle class="st0" cx="6.7" cy="24.59" r="6"/>
+    <circle class="st2" cx="21.32" cy="30.19" r="3.77"/>
+    <path class="st4" d="M10.2,24.08c-.58-1.99-1.96-2.86-3.92-2.89"/>
+  </g>
+</svg>

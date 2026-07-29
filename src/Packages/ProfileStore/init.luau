@@ -1,10 +1,12 @@
+--!nocheck
+
 --[[
 MAD STUDIO (by loleris)
 
 -[ProfileStore]---------------------------------------
 
 	Periodic DataStore saving solution with session locking
-	
+
 	WARNINGS FOR "Profile.Data" VALUES:
 	 	! Do not create numeric tables with gaps - attempting to store such tables will result in an error.
 		! Do not create mixed tables (some values indexed by number and others by a string key)
@@ -13,50 +15,50 @@ MAD STUDIO (by loleris)
 		! Do not reference Roblox Instances
 		! Do not reference userdata (Vector3, Color3, CFrame...) - Serialize userdata before referencing
 		! Do not reference functions
-		
+
 	Members:
-	
+
 		ProfileStore.IsClosing          [bool]
 			-- Set to true after a game:BindToClose() trigger
-			
+
 		ProfileStore.IsCriticalState    [bool]
 			-- Set to true when ProfileStore experiences too many consecutive errors
-		
+
 		ProfileStore.OnError            [Signal] (message, store_name, profile_key)
 			-- Most ProfileStore errors will be caught and passed to this signal
-			
+
 		ProfileStore.OnOverwrite        [Signal] (store_name, profile_key)
 			-- Triggered when a DataStore key was likely used to store data that wasn't
 			a ProfileStore profile or the ProfileStore structure was invalidly manually
 			altered for that DataStore key
-			
+
 		ProfileStore.OnCriticalToggle   [Signal] (is_critical)
 			-- Triggered when ProfileStore experiences too many consecutive errors
-		
+
 		ProfileStore.DataStoreState     [string] ("NotReady", "NoInternet", "NoAccess", "Access")
 			-- This value resembles ProfileStore's access to the DataStore; The value starts
 			as "NotReady" and will eventually change to one of the other 3 possible values.
-	
+
 	Functions:
-	
+
 		ProfileStore.New(store_name, template?) --> [ProfileStore]
 			store_name   [string] -- DataStore name
 			template     [table] or nil -- Profiles will default to given table (hard-copy) when no data was saved previously
-			
+
 		ProfileStore.SetConstant(name, value)
 			name    [string]
 			value   [number]
-				
+
 	Members [ProfileStore]:
-	
+
 		ProfileStore.Mock   [ProfileStore]
 			-- Reflection of ProfileStore methods, but the methods will now query a mock
 			DataStore with no relation to the real DataStore
-			
+
 		ProfileStore.Name   [string]
-		
+
 	Methods [ProfileStore]:
-	
+
 		ProfileStore:StartSessionAsync(profile_key, params?) --> [Profile] or nil
 			profile_key [string] -- DataStore key
 			params      nil or [table]: -- Custom params; E.g. {Steal = true}
@@ -66,11 +68,11 @@ MAD STUDIO (by loleris)
 						-- If the cancel function returns true, ProfileStore will stop trying to
 						-- start the session and return nil
 				}
-			
+
 		ProfileStore:MessageAsync(profile_key, message) --> is_success [bool]
 			profile_key [string] -- DataStore key
 			message     [table] -- Data to be messaged to the profile
-			
+
 		ProfileStore:GetAsync(profile_key, version?) --> [Profile] or nil
 			-- Reads a profile without starting a session - will not autosave
 			profile_key   [string] -- DataStore key
@@ -81,7 +83,7 @@ MAD STUDIO (by loleris)
 			sort_direction   nil or [Enum.SortDirection]
 			min_date         nil or [DateTime]
 			max_date         nil or [DateTime]
-			
+
 		ProfileStore:RemoveAsync(profile_key) --> is_success [bool]
 			-- Completely removes profile data from the DataStore / mock DataStore with no way to recover it.
 
@@ -89,20 +91,20 @@ MAD STUDIO (by loleris)
 
 		VersionQuery:NextAsync() --> [Profile] or nil -- (Yields)
 			-- Returned profile is similar to profiles returned by ProfileStore:GetAsync()
-		
+
 	Members [Profile]:
-	
+
 		Profile.Data               [table]
 			-- When the profile is active changes to this table are guaranteed to be saved
 		Profile.LastSavedData      [table] (Read-only)
 			-- Last snapshot of "Profile.Data" that has been successfully saved to the DataStore;
 			Useful for proper developer product purchase receipt handling
-		
+
 		Profile.FirstSessionTime   [number] (Read-only)
 			-- os.time() timestamp of the first profile session
-			
+
 		Profile.SessionLoadCount   [number] (Read-only) -- Amount of times a session was started for this profile
-			
+
 		Profile.Session            [table] (Read-only) {PlaceId = number, JobId = string} / nil
 			-- Set to a table if this profile is in use by a server; nil if released
 
@@ -110,10 +112,10 @@ MAD STUDIO (by loleris)
 		Profile.UserIds            [table] -- (Read-only) -- {user_id [number], ...} -- User ids associated with this profile
 
 		Profile.KeyInfo            [DataStoreKeyInfo] -- Changes before OnAfterSave signal
-		
+
 		Profile.OnSave             [Signal] ()
 			-- Triggered right before changes to Profile.Data are saved to the DataStore
-			
+
 		Profile.OnLastSave         [Signal] (reason [string]: "Manual", "External", "Shutdown")
 			-- Triggered right before changes to Profile.Data are saved to the DataStore
 			for the last time; A reason is provided for the last save:
@@ -123,25 +125,25 @@ MAD STUDIO (by loleris)
 			Note that this event will not trigger for when a profile session is ended by
 			another server trying to take ownership of the session - this is impossible to
 			do without compromising on ProfileStore's speed.
-			
+
 		Profile.OnSessionEnd       [Signal] ()
 			-- Triggered when the profile session is terminated on this server
-		
+
 		Profile.OnAfterSave        [Signal] (last_saved_data)
 			-- Triggered after a successful save
 			last_saved_data [table] -- Profile.LastSavedData
-			
+
 		Profile.ProfileStore       [ProfileStore] -- ProfileStore object this profile belongs to
 		Profile.Key                [string] -- DataStore key
-		
+
 	Methods [Profile]:
-	
+
 		Profile:IsActive() --> [bool] -- If "true" is returned, changes to Profile.Data are guaranteed to save;
 			This guarantee is only valid until code yields (e.g. task.wait() is used).
-			
+
 		Profile:Reconcile() -- Fills in missing (nil) [string_key] = [value] pairs to the Profile.Data structure
 			from the "template" argument that was passed to "ProfileStore.New()"
-			
+
 		Profile:EndSession() -- Call after the server has finished working with this profile
 			e.g., after the player leaves (Profile object will become inactive)
 
@@ -150,7 +152,7 @@ MAD STUDIO (by loleris)
 
 		Profile:RemoveUserId(user_id) -- Removes user_id association with profile (safe function)
 			user_id   [number]
-			
+
 		Profile:MessageHandler(fn) -- Sets a message handler for this profile
 			fn [function] (message [table], processed [function]())
 			-- The handler function receives a message table and a callback function;
@@ -158,13 +160,13 @@ MAD STUDIO (by loleris)
 			- this will discard the message from the profile message cache; If the
 			callback function is not called, other message handlers will also be triggered
 			with unprocessed message data.
-			
+
 		Profile:Save() -- If the profile session is still active makes an UpdateAsync call
 			to the DataStore to immediately save profile data
 
 		Profile:SetAsync() -- Forcefully saves changes to the profile; Only for profiles
 			loaded with ProfileStore:GetAsync() or ProfileStore:VersionQuery()
-		
+
 --]]
 
 local AUTO_SAVE_PERIOD = 300 -- (Seconds) Time between when changes to a profile are saved to the DataStore
@@ -878,10 +880,10 @@ end
 
 --[[
 	Saved profile structure:
-	
+
 	{
 		Data = {},
-		
+
 		MetaData = {
 			ProfileCreateTime = 0,
 			SessionLoadCount = 0,
@@ -890,10 +892,10 @@ end
 			LastUpdate = 0, -- os.time()
 			MetaTags = {}, -- Backwards compatibility with ProfileService
 		},
-		
+
 		RobloxMetaData = {},
 		UserIds = {},
-		
+
 		GlobalUpdates = {
 			update_index,
 			{
@@ -992,10 +994,9 @@ export type ProfileStoreModule = {
 			listener: (store_name: string, profile_key: string) -> ()
 		) -> { Disconnect: (self: any) -> () },
 	},
-	OnCriticalToggle: { Connect: (
-		self: any,
-		listener: (is_critical: boolean) -> ()
-	) -> { Disconnect: (self: any) -> () } },
+	OnCriticalToggle: {
+		Connect: (self: any, listener: (is_critical: boolean) -> ()) -> { Disconnect: (self: any) -> () },
+	},
 	DataStoreState: "NotReady" | "NoInternet" | "NoAccess" | "Access",
 	New: <T>(store_name: string, template: (T & JSONAcceptable)?) -> ProfileStore<T>,
 	SetConstant: (name: ConstantName, value: number) -> (),

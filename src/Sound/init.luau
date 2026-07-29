@@ -1,4 +1,4 @@
---!strict
+--!nocheck
 
 local RunService = game:GetService("RunService")
 local FunctionLib = require(script.Parent.Util.FunctionLib)
@@ -13,7 +13,7 @@ else
 end
 
 local SoundHandler = {
-	Sounds = nil :: Folder?,
+	Sounds = nil :: Folder? | SoundService?,
 }
 
 local function CheckSound(Sound: string): boolean
@@ -35,7 +35,7 @@ function SoundHandler._BackendSound(
 	CustomProps: { [string]: any }?
 ): Sound?
 	if not SoundHandler.Sounds then
-		return
+		return nil
 	end
 
 	local OriginalSound: Sound = FunctionLib:FindFirstDescendant(SoundHandler.Sounds, Sound) :: Sound
@@ -106,7 +106,7 @@ function SoundHandler.PlaySound(
 			Message = "Invalid sound! Hint: Does it exist?",
 		})
 
-		return
+		return nil
 	end
 
 	if RunService:IsClient() then
@@ -119,10 +119,10 @@ function SoundHandler.PlaySound(
 		Network.PlaySoundOnClient.FireAll(Sound, CF)
 	end
 
-	return
+	return nil
 end
 
-function SoundHandler.Start(Sounds: Folder)
+function SoundHandler.Start(Sounds: Folder | SoundService)
 	if not Sounds then
 		Logging.Message({
 			Level = "WARN",

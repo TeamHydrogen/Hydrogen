@@ -1,0 +1,12 @@
+[package]
+name = "teamhydrogen/hydrogen"
+version = "0.4.0"
+description = "Game framework for Roblox with all the essentials needed!"
+authors = ["iSophes"]
+repository = "https://github.com/teamhydrogen/hydrogen"
+license = "MIT"
+
+[target]
+environment = "shared"
+main = "src/init.luau"
+includes = ["pesde.toml", "LICENSE", "src/**/*.luau", "README.md"]

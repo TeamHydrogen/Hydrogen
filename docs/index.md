@@ -6,12 +6,12 @@ hero:
   name: "Hydrogen"
   text: "Battery Powered Game Development"
   tagline: Simple, Easy, Powerful. Supercharge your game development with hydrogen power.
-  image: ./assets/bubbles.png
+  image: logo_white.svg
 
   actions:
     - theme: brand
       text: Get Started
-      link: /installation.md
+      link: /resources/1-why.md
     - theme: alt
       text: GitHub
       link: https://github.com/teamhydrogen/hydrogen
@@ -24,4 +24,3 @@ features:
   - title: Code how you want
     details: Under the hood, it's a bootstrapper and utilities. We don't force you into networking techniques or any weird habits.
 ---
-

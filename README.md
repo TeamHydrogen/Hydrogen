@@ -1,107 +1,24 @@
-# Hydrogen
+<br>
 
-## A Framework for Roblox designed to handle things that you would rather not.
+<div align="center">
+    <img src="docs/assets/logo_coloured.svg" width="600" />
+</div>
+
+# Hydrogen
 
 ---
 
-## WARNING: Hey There! Please note that Hydrogen is NOT finished and contains MANY issues and no official documentation
+<div align="center">
+Batteries Included Game Framework.
 
-## These will come with due time after the project has been battle-tested, however feel free to use Hydrogen if you figure it out!
+[Wally](https://wally.run/package/teamhydrogen/hydrogen) | [Pesde](https://pesde.dev/packages/teamhydrogen/hydrogen) | [LPM](https://luaupm.com/package?name=teamhydrogen%2Fhydrogen)
 
-## Install
+[![GitHub License](https://img.shields.io/github/license/teamhydrogen/hydrogen?style=for-the-badge)](LICENSE)
 
-### With wally
+</div>
 
-```toml
-	hydrogen = "teamhydrogen/hydrogen@0.3.3"
-```
+---
 
-### With pesde
-
-```sh
-pesde add teamhydrogen/hydrogen
-pesde install
-```
-
-### In File
-
-pesde.toml:
-
-```toml
-[dependencies]
-hydrogen = { name = "teamhydrogen/hydrogen", version = "^0.3.3"}
-```
-
-## Usage:
-
-These documents will be very brief as it is just a readme
-
-```lua
-Hydrogen.Start(Config: {
-	ModuleDirectory: any,
-	ModuleSuffix: string?,
-	RunLifecycles: boolean? | { "PlayerAdded" | "PlayerRemoving" | "CharacterAdded" | "Heartbeat" | "RenderStepped" }?,
-})
-```
-
-ModuleDirectory: Where your modules are stored on Server and Client
-ModuleSuffix: What your modules end in, Defaults to "Handler"
-RunLifecycles: True for all, select what you can use automatically as a function without needing extra connections
-
-This will load your modules and other Hydrogen aspects like lifecycles and sound, Players will need to be sorted yourself.
-
-## Lifecycles
-
-Lifecycles set in Hydrogen.Start can be ran with the following
-
-```lua
-local Module = {}
-
-function Module.CONNECTION(Args)
-end
-
-return Module
-```
-
-For example:
-
-```lua
-local Module = {}
-
-function Module.PlayerAdded(Player: Player)
-end
-
-return Module
-```
-
-This will run every time a player is added
-
-## PlayerHandler
-
-This handles player data and saving, being a wrapper for [ProfileStore](https://devforum.roblox.com/t/profilestore-save-your-player-data-easy-datastore-module/3190543) allowing you to set, get and even handle custom functions when data is updated
-
-This will go more in-depth in the real documentation, however for a README I want to keep it short.
-
-The basics are that you set data with
-
-```lua
-PlayerHandler:SetPlayerData(Player, {DATA})
-```
-
-Data is a table with a key and what you want to set the key to
-
-```lua
-PlayerHandler:SetPlayerData(Player, {Coins = 300}) -- Sets coins to 300
-```
-
-Note: You can also run :Await() at the end of SetPlayerData to return the new data that has been set.
-
-You get data with
-
-```lua
-PlayerHandler:GetPlayerData(Player):Await() -- Returns a future, use Await to just get the data in a variable.
-```
-
-## SoundHandler
-
-Plays sounds on Server and/or Client, tries to make sounds completely handled by Client.
+Roblox games get complex. More systems, more code, more files. Manually requiring code and creating lifecycles is time consuming when you want to start your project.
+<br />
+Hydrogen lets you easily load your modules without boilerplate in each one, gives you lifecycles in-built and provides many more utilities that you'd need.

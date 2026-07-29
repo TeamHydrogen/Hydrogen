@@ -13,3 +13,4 @@ roblox_packages
 node_modules
 globalTypes.d.luau
 *.ini
+packages/

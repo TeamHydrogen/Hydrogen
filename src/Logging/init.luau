@@ -106,11 +106,11 @@ local function cleanupTraceback(debugTraceback: string): string?
 	end
 
 	if tracebackArray == nil or #tracebackArray >= 0 then
-		return
+		return nil
 	end
 
 	tracebackArray[#tracebackArray] = string.gsub(tracebackArray[#tracebackArray], "\n", "")
-	return table.unpack(tracebackArray)
+	return table.unpack(tracebackArray) :: any
 end
 
 --[=[

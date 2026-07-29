@@ -3,10 +3,10 @@
 local FunctionLib = {}
 local suffixes = { "K", "M", "B", "T", "Qd", "Qn", "Se", "Sp", "Oc", "No", "Dc", "Udc", "Ddc", "Tdc" }
 
-local None = newproxy(true)
+FunctionLib.None = newproxy(true)
 
-getmetatable(None :: any).__tostring = function()
-	return "Sift.None"
+getmetatable(FunctionLib.None :: any).__tostring = function()
+	return "FunctionLib.None"
 end
 
 function FunctionLib:ToSuffixString(n)
@@ -35,7 +35,7 @@ function FunctionLib:FindPossibleStringsInString(String: string, Values: { strin
 		end
 	end
 
-	return
+	return nil
 end
 
 function FunctionLib:FindStringsInTable(Strings: { string }, Values: { string }): boolean
@@ -128,7 +128,7 @@ function FunctionLib:MergeDictionary(...: { [any]: any }): { [any]: any }
 		end
 
 		for key, value in pairs(dictionary) do
-			result[key] = if value == None then nil else value
+			result[key] = if value == FunctionLib.None then nil else value
 		end
 	end
 

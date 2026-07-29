@@ -97,7 +97,7 @@ local function Future<T..., A...>(Callback: (A...) -> T..., ...: A...): Future<T
 		end
 
 		for _, Callback in self.AfterList do
-			Spawn(Callback, table.unpack(ValueList))
+			Spawn(Callback, table.unpack(ValueList) :: any)
 		end
 	end, self, Callback, ...)
 
@@ -105,7 +105,7 @@ local function Future<T..., A...>(Callback: (A...) -> T..., ...: A...): Future<T
 end
 
 local function Try<T..., A...>(Callback: (A...) -> T..., ...: A...): Future<(boolean, T...)>
-	return Future(pcall, Callback, ...)
+	return Future(pcall, Callback, ...) :: any
 end
 
 return {

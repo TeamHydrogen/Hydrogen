@@ -38,7 +38,7 @@ function PlayerClass.new(Player: Player): Future.Future<PlayerClassType>?
 			Message = "You cannot run PlayerClass on the client.",
 			Level = "WARN",
 		})
-		return
+		return nil
 	end
 
 	return Future.new(function(): PlayerClassType
@@ -80,9 +80,9 @@ end
 function PlayerClass.SetDefaultData(Data: { [string]: any })
 	PlayerClass.DefaultData = Data
 
-	if RunService:IsServer() then
-		Store = RunService:IsStudio() and ProfileStore.New("Data", PlayerClass.DefaultData).Mock
-			or ProfileStore.New("Data", PlayerClass.DefaultData)
+	if RunService:IsServer() and ProfileStore then
+		Store = RunService:IsStudio() and ProfileStore.New("Data", PlayerClass.DefaultData :: any).Mock
+			or ProfileStore.New("Data", PlayerClass.DefaultData :: any)
 	end
 end
 

@@ -15,15 +15,17 @@ local LifecyclesEvents = {
 	Heartbeat = RunService.Heartbeat,
 	PostSimulation = RunService.PostSimulation,
 	PreSimulation = RunService.PreSimulation,
+	PreAnimation = RunService.PreAnimation,
 }
 
-local function RunCycles(Modules, Callback, ...)
-	for _, Module in Modules do
+local function RunCycles(Modules: { ModuleScript }, Callback, ...)
+	for _, Module: any in Modules do
 		local Args = ...
 
 		task.spawn(function()
-			if require(Module)[Callback] then
-				require(Module)[Callback](Args)
+			local Required = require(Module) :: any
+			if Required[Callback] then
+				Required[Callback](Args)
 			end
 		end)
 	end
@@ -58,6 +60,7 @@ function Lifecycles.Run(Modules: { any }, PossibleLifecycles: { typeof(Lifecycle
 			CharacterAdded = Players.LocalPlayer.CharacterAdded,
 			CharacterRemoving = Players.LocalPlayer.CharacterRemoving,
 			RenderStepped = RunService.RenderStepped,
+			PreRender = RunService.PreRender,
 		}
 
 		TotalLifecycles = FunctionLib:MergeDictionary(TotalLifecycles, ClientCycles)
