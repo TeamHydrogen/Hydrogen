@@ -5,8 +5,6 @@
     <h1>Hydrogen</h1>
 </div>
 
----
-
 <div align="center">
 Batteries Included Game Framework.
 
