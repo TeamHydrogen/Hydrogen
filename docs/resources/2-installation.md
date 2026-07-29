@@ -9,7 +9,7 @@ This goes over how to install Hydrogen
 In your `wally.toml`, add the following to your dependencies.
 
 ```toml
-hydrogen = "teamhydrogen/hydrogen@0.3.6"
+hydrogen = "teamhydrogen/hydrogen@0.4.0"
 ```
 
 ==Pesde
