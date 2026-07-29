@@ -80,7 +80,7 @@ function Hydrogen.Start(Config: {
 			continue
 		end
 
-		if table.find(Hydrogen[Runtime].ModuleNames, Descendant.Name) then
+		if table.find(Hydrogen[Runtime].ModuleNames :: any, Descendant.Name) then
 			error("Hydrogen failed to load " .. Descendant.Name .. " as there is already a module named that loaded!")
 		end
 
@@ -108,9 +108,9 @@ function Hydrogen.Start(Config: {
 
 	if Config.RunLifecycles == true then
 		if Runtime == "Client" then
-			Hydrogen[Runtime].RunLifecycles = PossibleClientCycles
+			Hydrogen[Runtime].RunLifecycles = PossibleClientCycles :: any
 		else
-			Hydrogen[Runtime].RunLifecycles = PossibleServerCycles
+			Hydrogen[Runtime].RunLifecycles = PossibleServerCycles :: any
 		end
 	end
 
