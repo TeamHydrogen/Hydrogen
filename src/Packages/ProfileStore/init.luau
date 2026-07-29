@@ -508,8 +508,6 @@ local function UpdateAsync(profile_store, profile_key, transform_params, is_user
 
 	local next_in_queue = WaitInUpdateQueue(SessionToken(profile_store.Name, profile_key, is_user_mock))
 
-	local success = true
-
 	local success, error_message = pcall(function()
 		local transform_function = function(latest_data)
 			local missing_profile = false
@@ -1891,7 +1889,7 @@ function ProfileVersionQuery:NextAsync()
 				is_finished = true
 			end)
 
-			local success, error_message = pcall(function()
+			local success, _error_message = pcall(function()
 				self.query_pages:AdvanceToNextPageAsync()
 				self.query_index = 0
 			end)
