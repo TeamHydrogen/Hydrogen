@@ -10,18 +10,18 @@ getmetatable(FunctionLib.None :: any).__tostring = function()
 end
 
 function FunctionLib:ToSuffixString(Number: number, DecimalPlaces: number?)
-	if n == 0 then
+	if Number == 0 then
 		return "0"
 	end
 
 	for i = #suffixes, 1, -1 do
 		local v = math.pow(10, i * 3)
 
-		if n >= v then
-			return (`%.{DecimalPlaces}f` or "%.3f"):format(n / v) .. suffixes[i]
+		if Number >= v then
+			return (`%.{DecimalPlaces}f` or "%.3f"):format(Number / v) .. suffixes[i]
 		end
 	end
-	return tostring(n)
+	return tostring(Number)
 end
 
 function FunctionLib:FindPossibleStringsInString(String: string, Values: { string }): string?
