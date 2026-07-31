@@ -9,20 +9,16 @@ getmetatable(FunctionLib.None :: any).__tostring = function()
 	return "FunctionLib.None"
 end
 
-function FunctionLib:ToSuffixString(n)
+function FunctionLib:ToSuffixString(Number: number, DecimalPlaces: number?)
 	if n == 0 then
 		return "0"
 	end
 
 	for i = #suffixes, 1, -1 do
-		if i == 1 then
-			continue
-		end
-
 		local v = math.pow(10, i * 3)
 
 		if n >= v then
-			return ("%.0f"):format(n / v) .. suffixes[i]
+			return (`%.{DecimalPlaces}f` or "%.3f"):format(n / v) .. suffixes[i]
 		end
 	end
 	return tostring(n)

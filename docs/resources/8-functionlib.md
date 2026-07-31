@@ -7,10 +7,12 @@ number formatting, string/table helpers, and dictionary utilities.
 
 ### ToSuffixString
 
-Converts a number into a shortened, suffixed string (e.g. `1000` → `1K`).
+Converts a number into a shortened, suffixed string. Gives a string to 3 decimal places by default. (e.g. `1000` → `1.000K`).
+Pass in a second parameter to control how many decimal places to return the value to.
 
 ```lua
-Hydrogen.FunctionLib:ToSuffixString(1500000) --> "2M"
+Hydrogen.FunctionLib:ToSuffixString(1500000) --> "1.500M"
+Hydrogen.FunctionLib:ToSuffixString(1500000, 1) --> "1.5M"
 ```
 
 ### ToScientificNotation / ToRegularNumber
