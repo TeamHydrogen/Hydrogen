@@ -50,7 +50,7 @@ function PlayerClass.new(Player: Player): Future.Future<PlayerClassType>?
 		self.SessionEnd = nil :: any
 		self.DataStore = nil :: any
 
-		self.DataStore = Store:StartSessionAsync(`{Player.Name}-{Player.UserId}`, {
+		self.DataStore = Store:StartSessionAsync(`{Player.UserId}`, {
 			Cancel = function()
 				return Player.Parent ~= Players
 			end,

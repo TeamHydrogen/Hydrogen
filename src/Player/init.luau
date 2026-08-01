@@ -1,5 +1,6 @@
 --!strict
 
+local DataStoreService = game:GetService("DataStoreService")
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 
@@ -27,6 +28,8 @@ function PlayerHandler.SetDataSetCallback(Callback: (Player: Player, Data: { [st
 end
 
 function PlayerHandler.PlayerAdded(self: Handler, Player: Player)
+	PlayerHandler.MigrateOldData(self, Player)
+
 	local Object = PlayerClass.new(Player)
 
 	if Object then
@@ -87,6 +90,21 @@ function PlayerHandler.GetPlayerData(self: Handler, Player: Player?): Future.Fut
 
 		return self.Players[Player]["DataStore"].Data
 	end)
+end
+
+PlayerHandler.MigrateOldData = function(self: typeof(PlayerHandler), Player: Player)
+	if RunService:IsClient() then
+		return
+	end
+
+	local success = DataStoreService:GetDataStore("Data"):GetAsync(`{Player.Name}-{Player.UserId}`)
+
+	if not success then
+		return
+	end
+
+	DataStoreService:GetDataStore("Data"):SetAsync(`{Player.UserId}`, success)
+	DataStoreService:GetDataStore("Data"):RemoveAsync(`{Player.Name}-{Player.UserId}`)
 end
 
 PlayerHandler.SetPlayerData = function(

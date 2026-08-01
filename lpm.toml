@@ -1,6 +1,6 @@
 [package]
 name = "teamhydrogen/hydrogen"
-version = "0.4.2"
+version = "0.5.0"
 description = "Game framework for Roblox with all the essentials needed!"
 authors = ["iSophes"]
 repository = "https://github.com/teamhydrogen/hydrogen"

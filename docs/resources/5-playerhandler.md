@@ -3,6 +3,10 @@
 PlayerHandler manages player data — loading defaults, updating values, and notifying
 you when data changes.
 
+::: danger Coming from before 0.5.0?
+Please read the migration notice at the bottom of this page to be fully up to date. If you're starting at or after 0.5.0, you don't need to worry.
+:::
+
 ## Setup
 
 Start PlayerHandler in `init.server.luau`, passing a table of default data:
@@ -58,4 +62,14 @@ want to change.
 ```lua
 local Data = Hydrogen.PlayerHandler:GetPlayerData(Player):Await()
 Hydrogen.PlayerHandler:SetPlayerData(Player, { Cash = Data.Cash + 100 })
+```
+
+## Migrating Data To 0.5.0
+
+As of 0.5.0, Data uses a new key format from {PlayerName}-{UserId} to just UserID. This is for reasons related to Right to Be Forgotten requests, and also general username changing.
+
+Data will be automatically migrated for you when a player joins, but if a player is missing data the function has been exposed for you
+
+```lua
+Hydrogen.PlayerHandler.MigrateOldData(Player)
 ```
