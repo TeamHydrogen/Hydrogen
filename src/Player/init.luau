@@ -149,6 +149,8 @@ function PlayerHandler.Start(Config: {
 		return
 	end
 
+	PlayerClass.Init()
+
 	Network.GetPlayerData.SetCallback(function(Player: Player)
 		local PlayerObject = PlayerHandler.Players[Player]
 		if not PlayerObject or not PlayerObject.DataStore then

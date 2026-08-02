@@ -15,10 +15,6 @@ PlayerClass.__index = PlayerClass
 
 PlayerClass.DefaultData = {} :: { [string]: any }
 
-if RunService:IsServer() then
-	ProfileStore = require(script.Parent.Parent.Packages.ProfileStore)
-end
-
 export type PlayerClassType = typeof(setmetatable(
 	{} :: {
 		Player: Player,
@@ -75,6 +71,12 @@ function PlayerClass.new(Player: Player): Future.Future<PlayerClassType>?
 
 		return setmetatable(self, PlayerClass) :: PlayerClassType
 	end)
+end
+
+function PlayerClass.Init()
+	if RunService:IsServer() then
+		ProfileStore = require(script.Parent.Parent.Packages.ProfileStore)
+	end
 end
 
 function PlayerClass.SetDefaultData(Data: { [string]: any })
